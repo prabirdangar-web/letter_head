@@ -90,6 +90,57 @@ body{
     .toolbar{ display:none; }
 }
 
+.format-toolbar{
+    flex:0 0 auto;
+    display:flex;
+    flex-wrap:wrap;
+    align-items:center;
+    gap:6px;
+    padding:6px 6px;
+    margin-top:6px;
+    background:#f2f2f2;
+    border:1px solid #ccc;
+    border-radius:6px;
+}
+
+.format-toolbar button,
+.format-toolbar select{
+    padding:5px 10px;
+    font-size:13px;
+    background:#fff;
+    border:1px solid #999;
+    border-radius:4px;
+    cursor:pointer;
+    font-family:'Noto Sans Bengali',sans-serif;
+}
+
+.format-toolbar button:hover{
+    background:#e8e8e8;
+}
+
+.format-toolbar .fdiv{
+    width:1px;
+    height:20px;
+    background:#bbb;
+    margin:0 2px;
+}
+
+@media print{
+    .format-toolbar{ display:none; }
+}
+
+.content table{
+    border-collapse:collapse;
+    width:100%;
+    margin:10px 0;
+}
+
+.content table td{
+    border:1px solid #333;
+    padding:6px 8px;
+    min-width:40px;
+}
+
 /* ===== TOP INFO STRIP ===== */
 .info-strip{
     flex:0 0 auto;
@@ -404,10 +455,36 @@ body{
 
 <div class="memo">
 <div><span id="memoLabel" data-bn="স্মারক নং :" data-en="Memo No. :">স্মারক নং :</span>&nbsp; <span contenteditable="true">&nbsp;</span></div>
-<div><span id="dateLabel" data-bn="তারিখ :" data-en="Date :">তারিখ :</span>&nbsp; <span contenteditable="true">_ _ _ _ _ _ _ _ _</span></div>
+<div><span id="dateLabel" data-bn="তারিখ :" data-en="Date :">তারিখ :</span>&nbsp; <span contenteditable="true">       /    /       </span></div>
 </div>
 
-<div class="content" contenteditable="true">
+<div class="format-toolbar">
+<button type="button" onclick="fmt('bold')"><b>B</b></button>
+<button type="button" onclick="fmt('italic')"><i>I</i></button>
+<button type="button" onclick="fmt('underline')"><u>U</u></button>
+<span class="fdiv"></span>
+<button type="button" onclick="fmt('justifyLeft')">⯇</button>
+<button type="button" onclick="fmt('justifyCenter')">☰</button>
+<button type="button" onclick="fmt('justifyRight')">⯈</button>
+<button type="button" onclick="fmt('justifyFull')">☰☰</button>
+<span class="fdiv"></span>
+<button type="button" onclick="fmt('insertUnorderedList')">• List</button>
+<button type="button" onclick="fmt('insertOrderedList')">1. List</button>
+<span class="fdiv"></span>
+<select onchange="fmt('fontSize', this.value)">
+<option value="">Size</option>
+<option value="2">Small</option>
+<option value="3">Normal</option>
+<option value="4">Medium</option>
+<option value="5">Large</option>
+<option value="6">X-Large</option>
+</select>
+<span class="fdiv"></span>
+<button type="button" onclick="insertTable()">⊞ Table</button>
+<button type="button" onclick="fmt('removeFormat')">Clear</button>
+</div>
+
+<div class="content" contenteditable="true" id="letterContent">
 
 </div>
 
@@ -489,6 +566,31 @@ function runAutoFit(){
 
 window.addEventListener('load', runAutoFit);
 window.addEventListener('resize', runAutoFit);
+</script>
+
+<script>
+function fmt(command, value){
+    document.getElementById('letterContent').focus();
+    document.execCommand(command, false, value || null);
+}
+
+function insertTable(){
+    const rows = prompt("কত সারি / How many rows?", "3");
+    const cols = prompt("কত কলাম / How many columns?", "3");
+    const r = parseInt(rows) || 3;
+    const c = parseInt(cols) || 3;
+    let html = '<table>';
+    for(let i=0;i<r;i++){
+        html += '<tr>';
+        for(let j=0;j<c;j++){
+            html += '<td>&nbsp;</td>';
+        }
+        html += '</tr>';
+    }
+    html += '</table><br>';
+    document.getElementById('letterContent').focus();
+    document.execCommand('insertHTML', false, html);
+}
 </script>
 
 </body>
