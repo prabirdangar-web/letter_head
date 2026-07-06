@@ -155,7 +155,7 @@ body{
 
 .title .name-en{
     font-size:34px;
-    color:#000;
+    color:#0a4f8f;
     font-weight:800;
     letter-spacing:.4px;
     text-transform:uppercase;
@@ -164,11 +164,17 @@ body{
 
 .title .name-bn{
     margin-top:4px;
-    font-size:26px;
-    color:#000;
+    font-size:32px;
     font-weight:800;
     letter-spacing:.2px;
     white-space:nowrap;
+    background:linear-gradient(180deg,#FF9933 0%,#FF9933 32%,#1a1a1a 32%,#1a1a1a 68%,#128807 68%,#128807 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    color:transparent;
+    -webkit-text-stroke:0.6px rgba(0,0,0,.35);
+    text-shadow:1px 2px 3px rgba(0,0,0,.25);
 }
 
 .title .estd{
@@ -240,16 +246,20 @@ body{
 .memo{
     flex:0 0 auto;
     display:flex;
-    justify-content:space-between;
+    flex-wrap:nowrap;
+    justify-content:flex-start;
+    align-items:baseline;
+    gap:36px;
     padding:16px 6px 6px;
     font-size:15.5px;
     font-weight:600;
     color:#000;
+    white-space:nowrap;
 }
 
 .memo span{
     border-bottom:1px dotted #888;
-    min-width:210px;
+    min-width:140px;
     display:inline-block;
     padding-bottom:2px;
     outline:none;
@@ -314,6 +324,18 @@ body{
         margin:0;
         min-height:auto;
     }
+    .title .name-en{
+        color:#000 !important;
+    }
+    .title .name-bn{
+        background:none !important;
+        -webkit-background-clip:initial !important;
+        background-clip:initial !important;
+        -webkit-text-fill-color:#000 !important;
+        color:#000 !important;
+        -webkit-text-stroke:0 !important;
+        text-shadow:none !important;
+    }
     .content{
         background-image:repeating-linear-gradient(
             to bottom,
@@ -362,17 +384,17 @@ body{
 <div class="title">
 <div class="name-en" id="nameEn">Taldangra Fulmati High School (H.S.)</div>
 <div class="name-bn" id="nameBn">তালডাংরা ফুলমতি উচ্চ বিদ্যালয় (উ:মা:)</div>
-<div class="estd">স্থাপিত ১৯৫৬ &nbsp;/&nbsp; Estd. 1956</div>
+<div class="estd" id="estdLine" data-bn="স্থাপিত ১৯৫৬" data-en="Estd. 1956" data-both="স্থাপিত ১৯৫৬ &nbsp;/&nbsp; Estd. 1956">স্থাপিত ১৯৫৬ &nbsp;/&nbsp; Estd. 1956</div>
 </div>
 
 </div>
 
 <div class="contact-strip">
-<div class="addr" id="addrLine">পো. ও ব্লক – তালডাংরা, মহকুমা – খাতড়া, জেলা – বাঁকুড়া, পশ্চিমবঙ্গ, পিন – ৭২২১৫২</div>
+<div class="addr" id="addrLine" data-bn="পো. ও ব্লক – তালডাংরা, মহকুমা – খাতড়া, জেলা – বাঁকুড়া, পশ্চিমবঙ্গ, পিন – ৭২২১৫২" data-en="P.O. &amp; Block – Taldangra, Sub-Div – Khatra, Dist – Bankura, West Bengal, PIN – 722152">পো. ও ব্লক – তালডাংরা, মহকুমা – খাতড়া, জেলা – বাঁকুড়া, পশ্চিমবঙ্গ, পিন – ৭২২১৫২</div>
 <div class="row2">
-<div class="item">☎️ ল্যান্ডলাইন : <b>০৩২৪৩-২৬৫১১৪</b></div>
+<div class="item">☎️ <span id="landlineLabel" data-bn="ল্যান্ডলাইন" data-en="Landline">ল্যান্ডলাইন</span> : <b><span id="landlineNum" data-bn="০৩২৪৩-২৬৫১১৪" data-en="03243-265114">০৩২৪৩-২৬৫১১৪</span></b></div>
 <div class="sep"></div>
-<div class="item">📞 <b>৯৪৩৪৬৫৪৬৭৮ / ৯৯৩৩০৩৫৮১১</b> (প্রধান শিক্ষক)</div>
+<div class="item">📞 <b><span id="mobileNum" data-bn="৯৪৩৪৬৫৪৬৭৮ / ৯৯৩৩০৩৫৮১১" data-en="9434654678 / 9933035811">৯৪৩৪৬৫৪৬৭৮ / ৯৯৩৩০৩৫৮১১</span></b> (<span id="mobileLabel" data-bn="প্রধান শিক্ষক" data-en="H.M.">প্রধান শিক্ষক</span>)</div>
 <div class="sep"></div>
 <div class="item">📧 highschooltaldangrafulmati@gmail.com</div>
 </div>
@@ -381,8 +403,8 @@ body{
 </div>
 
 <div class="memo">
-<div>স্মারক নং :&nbsp; <span contenteditable="true">&nbsp;</span></div>
-<div>তারিখ :&nbsp; <span contenteditable="true">____ / ____ / ২০____</span></div>
+<div><span id="memoLabel" data-bn="স্মারক নং :" data-en="Memo No. :">স্মারক নং :</span>&nbsp; <span contenteditable="true">&nbsp;</span></div>
+<div><span id="dateLabel" data-bn="তারিখ :" data-en="Date :">তারিখ :</span>&nbsp; <span contenteditable="true">_ _ _ _ _ _ _ _ _</span></div>
 </div>
 
 <div class="content" contenteditable="true">
@@ -391,13 +413,41 @@ body{
 
 <div class="footer">
 <div class="footer-line"></div>
-<div class="footer-bar">প্রেরক : <b>প্রধান শিক্ষক / সম্পাদক / প্রশাসক</b></div>
+<div class="footer-bar"><span id="senderLabel" data-bn="প্রেরক :" data-en="Sender :">প্রেরক :</span> <b><span id="senderRole" data-bn="প্রধান শিক্ষক / সম্পাদক / প্রশাসক" data-en="Headmaster / Secretary / Administrator">প্রধান শিক্ষক / সম্পাদক / প্রশাসক</span></b></div>
 </div>
 
 </div>
 
 <script>
 let currentLang = 'both';
+
+function setByLang(id, langKey){
+    const el = document.getElementById(id);
+    if(!el) return;
+    el.textContent = el.getAttribute('data-' + langKey);
+}
+
+function applyLangText(){
+    const estd = document.getElementById('estdLine');
+    const langKey = (currentLang === 'en') ? 'en' : 'bn';
+
+    if(currentLang === 'both'){
+        estd.innerHTML = estd.getAttribute('data-both');
+    } else {
+        estd.textContent = estd.getAttribute('data-' + langKey);
+    }
+
+    setByLang('addrLine', langKey);
+    setByLang('memoLabel', langKey);
+    setByLang('dateLabel', langKey);
+    setByLang('landlineLabel', langKey);
+    setByLang('landlineNum', langKey);
+    setByLang('mobileNum', langKey);
+    setByLang('mobileLabel', langKey);
+    setByLang('senderLabel', langKey);
+    setByLang('senderRole', langKey);
+}
+
 function toggleLang(){
     // cycles: both -> bengali only -> english only -> both
     const en = document.getElementById('nameEn');
@@ -415,6 +465,7 @@ function toggleLang(){
         en.style.display = 'block';
         bn.style.display = 'block';
     }
+    applyLangText();
     runAutoFit();
 }
 </script>
@@ -432,7 +483,7 @@ function fitToWidth(el, maxFontSize, minFontSize){
 
 function runAutoFit(){
     fitToWidth(document.getElementById('nameEn'), 34, 14);
-    fitToWidth(document.getElementById('nameBn'), 26, 14);
+    fitToWidth(document.getElementById('nameBn'), 34, 16);
     fitToWidth(document.getElementById('addrLine'), 26, 12);
 }
 
