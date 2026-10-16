@@ -7,11 +7,10 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Bengali:wght@400;500;600;700;800&family=Caveat:wght@500;700&display=swap" rel="stylesheet">
 
 <style>
-:root {
-    --line-gap: 28px;
+:root{
+    --line-height: 20px;
+    --rule-gap: 28px;
     --para-gap: 0px;
-    --line-color: #dce6f0;
-    --print-line-color: #e6e6e6;
 }
 
 @page{
@@ -60,7 +59,7 @@ body{
     z-index:0;
 }
 
-.header,.memo,.content,.footer,.info-strip,.sign-block,.post-sign-section{
+.header,.memo,.content,.footer,.info-strip,.sign-block,.encl-block,.below-sign-content{
     position:relative;
     z-index:1;
 }
@@ -76,16 +75,16 @@ body{
     flex-wrap:wrap;
     align-items:center;
     justify-content:center;
-    gap:6px;
+    gap:8px;
     background:#dbe4ee;
     border-bottom:2px solid #0a4f8f;
     padding:8px 10px;
     box-shadow:0 2px 6px rgba(0,0,0,.15);
-    margin-bottom:14px;
+    margin-bottom:12px;
 }
 
 .toolbar > button{
-    padding:6px 13px;
+    padding:7px 14px;
     font-size:13.5px;
     font-weight:bold;
     color:#fff;
@@ -103,11 +102,10 @@ body{
     flex-wrap:wrap;
     align-items:center;
     gap:5px;
-    padding:5px 8px;
+    padding:4px 6px;
     background:#f2f2f2;
     border:1px solid #ccc;
     border-radius:6px;
-    max-width:1150px;
 }
 
 .format-toolbar button,
@@ -132,16 +130,6 @@ body{
     background:#e8e8e8;
 }
 
-.format-toolbar button.active-toggle{
-    color:#fff;
-    background:#0a4f8f;
-    border-color:#0a4f8f;
-}
-
-.format-toolbar button.active-toggle:hover{
-    background:#06345e;
-}
-
 .format-toolbar input[type="color"]{
     width:18px;
     height:18px;
@@ -158,20 +146,31 @@ body{
     margin:0 2px;
 }
 
-/* Custom Underline Utility Classes */
-.u-single { text-decoration: underline solid currentColor !important; text-underline-offset: 3px; }
-.u-double { text-decoration: underline double currentColor !important; text-underline-offset: 3px; }
-.u-dotted { text-decoration: underline dotted currentColor !important; text-underline-offset: 3px; }
-.u-dashed { text-decoration: underline dashed currentColor !important; text-underline-offset: 3px; }
-.u-wavy   { text-decoration: underline wavy currentColor !important; text-underline-offset: 3px; }
-.u-thick  { text-decoration: underline solid currentColor !important; text-decoration-thickness: 2.5px !important; text-underline-offset: 3px; }
-.u-none   { text-decoration: none !important; }
+.format-toolbar .btn-active{
+    color:#fff !important;
+    background:#0a4f8f !important;
+    border-color:#0a4f8f !important;
+}
+
+.format-toolbar .btn-active:hover{
+    background:#06345e !important;
+}
 
 /* Visibility Toggles */
 .sign-hidden .sign-block{ display:none; }
 .encl-hidden .encl-block{ display:none; }
-.below-lines-hidden .below-sign-wrap{ display:none; }
-.lines-off .ruled-area{ background-image:none !important; }
+.below-hidden .below-sign-content{ display:none; }
+.no-rules .content,
+.no-rules .below-sign-content{ background-image:none !important; }
+
+/* MS Word Underline Style Classes */
+.u-single{ text-decoration:underline solid currentColor !important; text-underline-offset:3px; }
+.u-double{ text-decoration:underline double currentColor !important; text-underline-offset:3px; }
+.u-dotted{ text-decoration:underline dotted currentColor !important; text-underline-offset:3px; }
+.u-dashed{ text-decoration:underline dashed currentColor !important; text-underline-offset:3px; }
+.u-wavy{ text-decoration:underline wavy currentColor !important; text-underline-offset:3px; }
+.u-thick{ text-decoration:underline solid currentColor !important; text-decoration-thickness:2.5px !important; text-underline-offset:3px; }
+.u-none{ text-decoration:none !important; }
 
 /* ===== TOP INFO STRIP ===== */
 .info-strip{
@@ -348,42 +347,41 @@ body{
     background:#ffffff;
     border:1px solid #d7dce2;
     border-radius:4px;
-    min-width:110px;
+    min-width:90px;
     display:inline-block;
     padding:2px 8px;
     margin-left:4px;
     outline:none;
 }
 
-/* ===== CONTENT & RULED AREAS (notepad style, directly editable) ===== */
-.ruled-area{
+/* ===== CONTENT (exact original notepad style, directly editable) ===== */
+.content{
     flex:0 0 auto;
-    padding:4px 8px 6px;
-    font-size:17px;
-    line-height:var(--line-gap);
+    min-height:28px;
+    padding:6px 8px 8px;
+    font-size:17.0px;
+    line-height:var(--line-height);
     color:#1c1c1c;
     outline:none;
     background-image:repeating-linear-gradient(
         to bottom,
         transparent,
-        transparent calc(var(--line-gap) - 1px),
-        var(--line-color) var(--line-gap)
+        transparent calc(var(--rule-gap) - 1px),
+        #dce6f0 var(--rule-gap)
     );
     background-position:0 4px;
 }
 
-.content{
-    min-height:calc(var(--line-gap) * 6);
-}
-
-.ruled-area p,
-.ruled-area div{
+.content p,
+.content div,
+.below-sign-content p,
+.below-sign-content div{
     margin-bottom:var(--para-gap);
 }
 
-.ruled-area ul,
-.ruled-area ol{
-    padding-left:28px;
+.content ul, .content ol,
+.below-sign-content ul, .below-sign-content ol{
+    padding-left:26px;
 }
 
 .content:empty::before{
@@ -392,39 +390,36 @@ body{
     font-style:italic;
 }
 
-.below-sign-content:empty::before{
-    content:"স্বাক্ষরের নিচে মেমো / অনুলিপি (Copy forwarded to) বা অতিরিক্ত লাইন লিখুন...";
-    color:#a8a8a8;
-    font-style:italic;
-    font-size:14.5px;
-}
-
-.ruled-area:focus{
+.content:focus,
+.below-sign-content:focus{
     background-color:rgba(251,253,255,.5);
 }
 
-.ruled-area table{
+.content table,
+.below-sign-content table{
     border-collapse:collapse;
     width:100%;
     margin:10px 0;
-    background:#fff;
 }
 
-.ruled-area table td,
-.ruled-area table th{
+.content table td,
+.below-sign-content table td{
     border:1px solid #333;
     padding:6px 8px;
     min-width:40px;
-    line-height:1.4;
 }
 
-/* ===== SIGNATURE BLOCK (Sender lines removed) ===== */
+/* ===== SIGNATURE BLOCK (EXACT ORIGINAL PLACEMENT, SENDER LINES REMOVED) ===== */
+.footer{
+    flex:0 0 auto;
+    margin-top:10px;
+}
+
 .sign-block{
     display:flex;
     justify-content:flex-end;
     align-items:flex-start;
-    padding:6px 4mm 2mm;
-    margin-top:4px;
+    padding:0 4mm 4mm;
 }
 
 .sender-left{
@@ -459,140 +454,143 @@ body{
     mix-blend-mode:multiply;
 }
 
-/* ===== POST-STAMP SECTION: AUTO-NUMBERED ENCL & BELOW-SIGNATURE LINES ===== */
-.post-sign-section{
-    display:flex;
-    flex-direction:column;
-    gap:6px;
-    margin-top:2px;
-}
-
+/* ===== AFTER STAMP: AUTO-NUMBERING ENCL. SECTION ===== */
 .encl-block{
-    padding:4px 8px;
-    border-left:3px solid #0a4f8f;
-    background:rgba(248, 250, 252, 0.7);
-    border-radius:0 4px 4px 0;
-}
-
-.encl-header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    font-size:15px;
-    font-weight:700;
-    color:#000;
-    margin-bottom:2px;
+    flex:0 0 auto;
+    padding:2px 8px 4px;
+    font-size:15.5px;
+    color:#1c1c1c;
 }
 
 .encl-title{
-    outline:none;
+    font-weight:700;
     text-decoration:underline;
+    outline:none;
+    display:inline-block;
+    margin-bottom:2px;
 }
 
 .encl-list{
-    padding-left:26px;
-    font-size:15.5px;
-    line-height:var(--line-gap);
-    color:#1c1c1c;
+    padding-left:24px;
+    line-height:var(--line-height);
     outline:none;
 }
 
 .encl-list li{
     padding-left:4px;
+    margin-bottom:2px;
 }
 
 .encl-list li::marker{
-    font-weight:700;
+    font-weight:600;
 }
 
-.below-sign-wrap{
+/* ===== RULED LINES BELOW SIGNATURE ===== */
+.below-sign-content{
+    flex:0 0 auto;
+    min-height:calc(var(--rule-gap) * 3);
+    padding:6px 8px 8px;
+    font-size:16px;
+    line-height:var(--line-height);
+    color:#1c1c1c;
+    outline:none;
+    background-image:repeating-linear-gradient(
+        to bottom,
+        transparent,
+        transparent calc(var(--rule-gap) - 1px),
+        #dce6f0 var(--rule-gap)
+    );
+    background-position:0 4px;
     margin-top:2px;
 }
 
-.below-sign-content{
-    min-height:calc(var(--line-gap) * 4);
+.below-sign-content:empty::before{
+    content:"স্বাক্ষরের নিচে মেমো / অনুলিপি (Copy forwarded to) বা অতিরিক্ত লাইন লিখুন...";
+    color:#a8a8a8;
+    font-style:italic;
+    font-size:14px;
 }
 
 /* ===== AUTOCORRECT MODAL ===== */
-.ac-modal-backdrop{
+.ac-modal-wrap{
     display:none;
     position:fixed;
     inset:0;
-    background:rgba(0,0,0,0.45);
-    z-index:200;
+    background:rgba(0,0,0,.45);
+    z-index:100;
     align-items:center;
     justify-content:center;
 }
-.ac-modal-backdrop.open{
-    display:flex;
-}
+.ac-modal-wrap.open{ display:flex; }
 .ac-modal{
     background:#fff;
-    width:460px;
-    max-width:95vw;
-    border-radius:8px;
     padding:16px;
-    box-shadow:0 8px 24px rgba(0,0,0,0.25);
-    font-size:14px;
+    border-radius:8px;
+    width:440px;
+    max-width:95vw;
+    box-shadow:0 6px 20px rgba(0,0,0,.25);
+    font-size:13.5px;
 }
-.ac-modal h3{
-    margin-bottom:10px;
+.ac-modal h4{
     color:#0a4f8f;
+    margin-bottom:8px;
     display:flex;
     justify-content:space-between;
     align-items:center;
 }
-.ac-modal .ac-inputs{
+.ac-row{
     display:flex;
     gap:6px;
     margin-bottom:10px;
 }
-.ac-modal input{
+.ac-row input{
     flex:1;
-    padding:6px 8px;
-    border:1px solid #ccc;
+    padding:5px 8px;
+    border:1px solid #bbb;
     border-radius:4px;
-    font-family:inherit;
 }
-.ac-modal button{
-    padding:6px 12px;
+.ac-row button{
+    padding:5px 12px;
     background:#0a4f8f;
     color:#fff;
     border:none;
     border-radius:4px;
     cursor:pointer;
-    font-weight:600;
 }
-.ac-list{
-    max-height:200px;
+.ac-items{
+    max-height:180px;
     overflow-y:auto;
-    border:1px solid #e1e4e8;
+    border:1px solid #ddd;
     border-radius:4px;
-    padding:6px;
-    font-size:13px;
+    padding:4px 8px;
 }
 .ac-item{
     display:flex;
     justify-content:space-between;
-    padding:4px 6px;
+    align-items:center;
+    padding:4px 0;
     border-bottom:1px solid #f0f0f0;
 }
 .ac-item button{
-    background:#dc2626;
+    background:#c0392b;
+    color:#fff;
+    border:none;
+    border-radius:3px;
     padding:2px 6px;
     font-size:11px;
+    cursor:pointer;
 }
 
 /* ===== PRINTER-FRIENDLY OVERRIDES ===== */
 @media print{
+    .toolbar,
+    .format-toolbar,
+    .ac-modal-wrap{
+        display:none !important;
+    }
     body{
         background:#fff;
         padding:0;
-    }
-    .toolbar,
-    .format-toolbar,
-    .ac-modal-backdrop{
-        display:none !important;
     }
     .page{
         box-shadow:none;
@@ -611,28 +609,21 @@ body{
         -webkit-text-stroke:0 !important;
         text-shadow:none !important;
     }
-    .ruled-area{
+    .content,
+    .below-sign-content{
         background-image:repeating-linear-gradient(
             to bottom,
             transparent,
-            transparent calc(var(--line-gap) - 1px),
-            var(--print-line-color) var(--line-gap)
+            transparent calc(var(--rule-gap) - 1px),
+            #e6e6e6 var(--rule-gap)
         );
     }
     .content:empty::before,
     .below-sign-content:empty::before{
         content:"";
     }
-    .encl-block{
-        border-left:none;
-        background:transparent;
-        padding-left:4px;
-    }
-    .encl-block.is-empty{
+    .encl-block.empty-encl{
         display:none !important;
-    }
-    .below-sign-content:empty{
-        border-top:none;
     }
     .sign-img{
         mix-blend-mode:normal;
@@ -651,43 +642,37 @@ body{
 <div class="toolbar">
     <button type="button" onclick="window.print()">🖨 Print</button>
     <button type="button" id="langBtn" onclick="toggleLang()">বাংলা / English</button>
-    <button type="button" onclick="downloadStandaloneHTML()" title="Download complete HTML with embedded Logo & Stamp">💾 Save Full HTML</button>
+    <button type="button" onclick="saveFullHTML()" title="Download complete standalone index.html with embedded images">💾 Save Full HTML</button>
 
     <div class="format-toolbar">
-        <!-- Undo / Redo -->
-        <button type="button" onclick="fmt('undo')" title="Undo (Ctrl+Z)">↶</button>
-        <button type="button" onclick="fmt('redo')" title="Redo (Ctrl+Y)">↷</button>
+        <button type="button" onclick="fmt('undo')" title="Undo">↶</button>
+        <button type="button" onclick="fmt('redo')" title="Redo">↷</button>
         <span class="fdiv"></span>
 
-        <!-- Font Family & Size -->
-        <select onchange="fmt('fontName', this.value); this.value='';" title="Font Family">
+        <select onchange="fmt('fontName', this.value); this.value='';" title="Font">
             <option value="">Font</option>
             <option value="'Noto Sans Bengali', sans-serif">Noto Sans Bengali</option>
             <option value="'Times New Roman', serif">Times New Roman</option>
             <option value="Arial, sans-serif">Arial</option>
             <option value="Calibri, sans-serif">Calibri</option>
-            <option value="Georgia, serif">Georgia</option>
         </select>
 
-        <select onchange="fmt('fontSize', this.value); this.value='';" title="Font Size">
+        <select onchange="fmt('fontSize', this.value); this.value='';" title="Size">
             <option value="">Size</option>
-            <option value="2">Small (10pt)</option>
-            <option value="3">Normal (12pt)</option>
-            <option value="4">Medium (14pt)</option>
-            <option value="5">Large (18pt)</option>
-            <option value="6">X-Large (24pt)</option>
+            <option value="2">Small</option>
+            <option value="3">Normal</option>
+            <option value="4">Medium</option>
+            <option value="5">Large</option>
+            <option value="6">X-Large</option>
         </select>
         <span class="fdiv"></span>
 
-        <!-- Basic Text Styles -->
-        <button type="button" onclick="fmt('bold')" title="Bold (Ctrl+B)"><b>B</b></button>
-        <button type="button" onclick="fmt('italic')" title="Italic (Ctrl+I)"><i>I</i></button>
-        <button type="button" onclick="fmt('strikeThrough')" title="Strikethrough"><s>S</s></button>
-        <button type="button" onclick="fmt('superscript')" title="Superscript">X²</button>
-        <button type="button" onclick="fmt('subscript')" title="Subscript">X₂</button>
+        <button type="button" onclick="fmt('bold')" title="Bold"><b>B</b></button>
+        <button type="button" onclick="fmt('italic')" title="Italic"><i>I</i></button>
+        <button type="button" onclick="fmt('underline')" title="Underline"><u>U</u></button>
 
         <!-- MS Word Underline Styles -->
-        <select id="underlineStyleSelect" onchange="applyUnderlineStyle(this.value); this.value='';" title="MS Word Underline Styles">
+        <select onchange="setUnderlineStyle(this.value); this.value='';" title="MS Word Underline Styles">
             <option value="">U̲ Style ▾</option>
             <option value="u-single">Single ────</option>
             <option value="u-double">Double ════</option>
@@ -695,75 +680,70 @@ body{
             <option value="u-dashed">Dashed ╌╌╌╌</option>
             <option value="u-wavy">Wavy ～～～～</option>
             <option value="u-thick">Thick ━━━━</option>
-            <option value="u-none">✕ Remove Underline</option>
+            <option value="u-none">✕ No Underline</option>
         </select>
+
+        <button type="button" onclick="fmt('strikeThrough')" title="Strikethrough"><s>S</s></button>
+        <button type="button" onclick="fmt('superscript')" title="Superscript">X²</button>
+        <button type="button" onclick="fmt('subscript')" title="Subscript">X₂</button>
         <span class="fdiv"></span>
 
-        <!-- Colors -->
-        <label class="color-lbl" title="Text Color">
-            A̲ <input type="color" value="#1c1c1c" onchange="fmt('foreColor', this.value)">
-        </label>
-        <label class="color-lbl" title="Highlight Color">
-            🖍 <input type="color" value="#ffff00" onchange="fmt('hiliteColor', this.value)">
-        </label>
+        <label class="color-lbl" title="Text Color">A̲<input type="color" value="#1c1c1c" onchange="fmt('foreColor', this.value)"></label>
+        <label class="color-lbl" title="Highlight">🖍<input type="color" value="#ffff00" onchange="fmt('hiliteColor', this.value)"></label>
         <span class="fdiv"></span>
 
-        <!-- Alignment & Indentation -->
         <button type="button" onclick="fmt('justifyLeft')" title="Align Left">⯇</button>
         <button type="button" onclick="fmt('justifyCenter')" title="Align Center">☰</button>
         <button type="button" onclick="fmt('justifyRight')" title="Align Right">⯈</button>
         <button type="button" onclick="fmt('justifyFull')" title="Justify">☰☰</button>
-        <button type="button" onclick="fmt('indent')" title="Increase Indent">⇥</button>
-        <button type="button" onclick="fmt('outdent')" title="Decrease Indent">⇤</button>
+        <button type="button" onclick="fmt('indent')" title="Indent">⇥</button>
+        <button type="button" onclick="fmt('outdent')" title="Outdent">⇤</button>
         <span class="fdiv"></span>
 
-        <!-- Line Gap (Spacing Between Two Lines) & Paragraph Gap -->
-        <select id="lineGapSelect" onchange="changeLineGap(this.value)" title="Gap Between Two Lines (Line Spacing)">
-            <option value="22px">↕ Gap: 1.0 (Compact)</option>
-            <option value="25px">↕ Gap: 1.15</option>
-            <option value="28px" selected>↕ Gap: 1.4 (Default)</option>
-            <option value="32px">↕ Gap: 1.5</option>
-            <option value="36px">↕ Gap: 1.75</option>
-            <option value="42px">↕ Gap: 2.0 (Double)</option>
-            <option value="48px">↕ Gap: 2.5 (Wide)</option>
+        <!-- Gap Between Two Lines (Line Spacing) -->
+        <select onchange="setLineGap(this.value)" title="Gap Between Two Lines">
+            <option value="20px|28px" selected>↕ Line Gap: Default</option>
+            <option value="22px|24px">↕ Gap: 1.0 (Tight)</option>
+            <option value="26px|26px">↕ Gap: 1.15</option>
+            <option value="28px|28px">↕ Gap: 1.3 (Aligned)</option>
+            <option value="32px|32px">↕ Gap: 1.5</option>
+            <option value="38px|38px">↕ Gap: 1.8</option>
+            <option value="44px|44px">↕ Gap: 2.0 (Double)</option>
         </select>
 
-        <select id="paraGapSelect" onchange="changeParaGap(this.value)" title="Paragraph Spacing">
-            <option value="0px" selected>Para Gap: 0pt</option>
-            <option value="6px">Para Gap: 6pt</option>
-            <option value="12px">Para Gap: 12pt</option>
-            <option value="18px">Para Gap: 18pt</option>
+        <select onchange="setParaGap(this.value)" title="Paragraph Gap">
+            <option value="0px" selected>Para: 0pt</option>
+            <option value="6px">Para: 6pt</option>
+            <option value="12px">Para: 12pt</option>
+            <option value="18px">Para: 18pt</option>
         </select>
         <span class="fdiv"></span>
 
-        <!-- Lists & Tables -->
-        <button type="button" onclick="fmt('insertUnorderedList')" title="Bullet List">• List</button>
-        <button type="button" onclick="fmt('insertOrderedList')" title="Numbered List">1. List</button>
-        <button type="button" onclick="insertTable()" title="Insert Table">⊞ Table</button>
-        <button type="button" onclick="fmt('insertHorizontalRule')" title="Insert Horizontal Line">― Line</button>
-        <button type="button" onclick="fmt('removeFormat')" title="Clear Formatting">Clear</button>
+        <button type="button" onclick="fmt('insertUnorderedList')">• List</button>
+        <button type="button" onclick="fmt('insertOrderedList')">1. List</button>
+        <button type="button" onclick="insertTable()">⊞ Table</button>
+        <button type="button" onclick="fmt('removeFormat')">Clear</button>
         <span class="fdiv"></span>
 
-        <!-- Toggles: Stamp, Encl, Below-Signature Lines, Ruled Lines, Spell/AutoCorrect -->
-        <button type="button" id="signToggleBtn" class="active-toggle" onclick="toggleSign()">✓ Sig/Date/Seal</button>
-        <button type="button" id="enclToggleBtn" class="active-toggle" onclick="toggleEncl()">✓ Encl. (Auto #)</button>
-        <button type="button" onclick="addEnclItem()" title="Add Numbered Enclosure">+ Encl. Item</button>
+        <button type="button" id="signToggleBtn" class="btn-active" onclick="toggleSign()">✓ Sig/Date/Seal</button>
+        <button type="button" id="enclToggleBtn" class="btn-active" onclick="toggleEncl()">✓ Encl.</button>
+        <button type="button" onclick="addEnclRow()" title="Add Auto-Numbered Enclosure Line">+ Encl.#</button>
         <span class="fdiv"></span>
 
-        <button type="button" id="belowLinesToggleBtn" class="active-toggle" onclick="toggleBelowLines()" title="Show/Hide Ruled Lines Below Signature">✓ Lines Below Sig</button>
-        <button type="button" onclick="adjustBelowLines(1)" title="Add Line Below Signature">+ Line</button>
-        <button type="button" onclick="adjustBelowLines(-1)" title="Remove Line Below Signature">- Line</button>
-        <button type="button" id="ruledToggleBtn" class="active-toggle" onclick="toggleRuledLines()" title="Show/Hide Notepad Ruled Lines">📏 Ruled</button>
+        <button type="button" id="belowToggleBtn" class="btn-active" onclick="toggleBelowLines()">✓ Below Sig Lines</button>
+        <button type="button" onclick="changeBelowLineCount(1)" title="Add Line Below Signature">+ Line</button>
+        <button type="button" onclick="changeBelowLineCount(-1)" title="Remove Line Below Signature">- Line</button>
+        <button type="button" id="ruleToggleBtn" class="btn-active" onclick="toggleRuledBg()" title="Toggle Notepad Lines">📏 Lines</button>
         <span class="fdiv"></span>
 
-        <button type="button" id="spellToggleBtn" class="active-toggle" onclick="toggleSpellAutoCorrect()" title="Toggle Spell Check & AutoCorrect">✓ AutoCorrect & Spell</button>
-        <button type="button" onclick="openAutoCorrectModal()" title="Manage AutoCorrect Dictionary">⚙ Rules</button>
+        <button type="button" id="spellBtn" class="btn-active" onclick="toggleSpellCheck()">✓ AutoCorrect & Spell</button>
+        <button type="button" onclick="openAcModal()" title="Edit AutoCorrect Words">⚙ AutoCorrect</button>
     </div>
 </div>
 
-<div class="page" id="letterPage">
+<div class="page" id="pageContainer">
 
-    <div class="watermark" id="watermarkDiv"></div>
+    <div class="watermark" id="watermarkEl"></div>
 
     <div class="info-strip">
         <span>INDEX NO : U1-083</span>
@@ -778,7 +758,7 @@ body{
     <div class="header">
         <div class="header-inner">
             <div class="logo-wrap">
-                <img id="schoolLogoImg" src="" alt="School Logo">
+                <img id="logoImg" src="" alt="School Logo">
             </div>
 
             <div class="title">
@@ -801,437 +781,365 @@ body{
     </div>
 
     <div class="memo">
-        <div><span id="memoLabel" data-bn="স্মারক নং :" data-en="Memo No. :">স্মারক নং :</span><span contenteditable="true" id="memoInput" spellcheck="false">&nbsp;</span></div>
-        <div><span id="dateLabel" data-bn="তারিখ :" data-en="Date :">তারিখ :</span><span contenteditable="true" id="dateInput" spellcheck="false">&nbsp;</span></div>
+        <div><span id="memoLabel" data-bn="স্মারক নং :" data-en="Memo No. :">স্মারক নং :</span><span contenteditable="true" spellcheck="false">&nbsp;</span></div>
+        <div><span id="dateLabel" data-bn="তারিখ :" data-en="Date :">তারিখ :</span><span contenteditable="true" spellcheck="false">&nbsp;</span></div>
     </div>
 
-    <!-- MAIN LETTER CONTENT -->
-    <div class="content ruled-area" contenteditable="true" id="letterContent" spellcheck="true" autocorrect="on"></div>
+    <!-- MAIN LETTER BODY -->
+    <div class="content" contenteditable="true" id="letterContent" spellcheck="true"></div>
 
-    <!-- SIGNATURE & STAMP BLOCK (Sender lines removed as requested) -->
-    <div class="sign-block" id="signBlock">
+    <!-- SIGNATURE STAMP BLOCK (EXACT EARLIER PLACEMENT, SENDER LINES REMOVED) -->
+    <div class="sign-block">
         <div class="sender-left">
             <div class="sign-wrap">
-                <img id="signImg" class="sign-img" src="" alt="Signature & Seal">
+                <img id="signImg" class="sign-img" src="" alt="Signature &amp; Stamp">
                 <div class="sign-date" id="signDate" contenteditable="true" spellcheck="false"></div>
             </div>
         </div>
     </div>
 
-    <!-- POST-STAMP SECTION: AUTO-NUMBERING ENCL. + RULED LINES BELOW SIGNATURE -->
-    <div class="post-sign-section" id="postSignSection">
-        <!-- Auto-Numbering Encl. Section -->
-        <div class="encl-block" id="enclBlock">
-            <div class="encl-header">
-                <span class="encl-title" id="enclLabel" data-bn="সংযুক্তি (Encl.) :" data-en="Encl. :" contenteditable="true">সংযুক্তি (Encl.) :</span>
-            </div>
-            <ol class="encl-list" id="enclList" contenteditable="true" spellcheck="true">
-                <li></li>
-            </ol>
-        </div>
-
-        <!-- Additional Ruled Lines Below Signature -->
-        <div class="below-sign-wrap" id="belowSignWrap">
-            <div class="below-sign-content ruled-area" contenteditable="true" id="belowSignContent" spellcheck="true" autocorrect="on"></div>
-        </div>
+    <!-- AFTER STAMP: AUTO-NUMBERING ENCL. -->
+    <div class="encl-block empty-encl" id="enclBlock">
+        <span class="encl-title" id="enclLabel" data-bn="সংযুক্তি (Encl.) :" data-en="Encl. :" contenteditable="true">সংযুক্তি (Encl.) :</span>
+        <ol class="encl-list" id="enclList" contenteditable="true" spellcheck="true">
+            <li></li>
+        </ol>
     </div>
+
+    <!-- BELOW SIGNATURE LINES -->
+    <div class="below-sign-content" contenteditable="true" id="belowSignContent" spellcheck="true"></div>
 
 </div>
 
-<!-- AUTOCORRECT RULES MODAL -->
-<div class="ac-modal-backdrop" id="acModal">
+<!-- AUTOCORRECT DICTIONARY MODAL -->
+<div class="ac-modal-wrap" id="acModal">
     <div class="ac-modal">
-        <h3>
-            <span>⚙ MS Word AutoCorrect Rules</span>
-            <button type="button" onclick="closeAutoCorrectModal()" style="background:#666;">✕</button>
-        </h3>
-        <p style="font-size:12px; color:#555; margin-bottom:8px;">
-            Type a shortcut word and press <b>Space</b> or <b>Enter</b> to replace it automatically.
-        </p>
-        <div class="ac-inputs">
-            <input type="text" id="acFrom" placeholder="Replace (e.g. tfhs)">
-            <input type="text" id="acTo" placeholder="With (e.g. Taldangra Fulmati High School)">
-            <button type="button" onclick="addAutoCorrectRule()">Add</button>
+        <h4>
+            <span>⚙ MS Word AutoCorrect Dictionary</span>
+            <button type="button" onclick="closeAcModal()" style="border:none;background:#888;color:#fff;padding:2px 8px;border-radius:4px;cursor:pointer;">✕</button>
+        </h4>
+        <div class="ac-row">
+            <input type="text" id="acKey" placeholder="Type shortcut (e.g. tfhs)">
+            <input type="text" id="acVal" placeholder="Replacement text">
+            <button type="button" onclick="addAcEntry()">Add</button>
         </div>
-        <div class="ac-list" id="acListContainer"></div>
+        <div class="ac-items" id="acItemsList"></div>
     </div>
 </div>
 
 <script>
-/* ===== 1. FORMATTING & UNDERLINE STYLES ===== */
-function fmt(command, value = null) {
-    document.execCommand(command, false, value);
+/* ===== 1. RICH TEXT & MS WORD UNDERLINE STYLES ===== */
+function fmt(cmd, val = null){
+    document.execCommand(cmd, false, val);
 }
 
-function applyUnderlineStyle(styleClass) {
-    if (!styleClass) return;
+function setUnderlineStyle(cls){
+    if(!cls) return;
     const sel = window.getSelection();
-    if (!sel.rangeCount) return;
-
+    if(!sel.rangeCount) return;
     const range = sel.getRangeAt(0);
-    if (range.collapsed) return;
+    if(range.collapsed) return;
 
-    const classes = ['u-single', 'u-double', 'u-dotted', 'u-dashed', 'u-wavy', 'u-thick', 'u-none'];
-
-    // If parent is already a styled span, update its class
-    let parentEl = range.commonAncestorContainer.nodeType === 1
+    const allStyles = ['u-single','u-double','u-dotted','u-dashed','u-wavy','u-thick','u-none'];
+    let parent = range.commonAncestorContainer.nodeType === 1
         ? range.commonAncestorContainer
         : range.commonAncestorContainer.parentElement;
 
-    if (parentEl && parentEl.tagName === 'SPAN' && classes.some(c => parentEl.classList.contains(c))) {
-        classes.forEach(c => parentEl.classList.remove(c));
-        if (styleClass !== 'u-none') {
-            parentEl.classList.add(styleClass);
-        } else {
-            parentEl.style.textDecoration = 'none';
-        }
+    if(parent && parent.tagName === 'SPAN' && allStyles.some(c => parent.classList.contains(c))){
+        allStyles.forEach(c => parent.classList.remove(c));
+        parent.classList.add(cls);
         return;
     }
 
     const span = document.createElement('span');
-    if (styleClass !== 'u-none') {
-        span.className = styleClass;
-    } else {
-        span.className = 'u-none';
-    }
-
-    try {
+    span.className = cls;
+    try{
         span.appendChild(range.extractContents());
         range.insertNode(span);
         sel.removeAllRanges();
-        const newRange = document.createRange();
-        newRange.selectNodeContents(span);
-        sel.addRange(newRange);
-    } catch (e) {
+        const nr = document.createRange();
+        nr.selectNodeContents(span);
+        sel.addRange(nr);
+    }catch(e){
         document.execCommand('underline', false, null);
     }
 }
 
-/* ===== 2. LINE GAP & PARAGRAPH SPACING ===== */
-let belowLineCount = 4;
+/* ===== 2. GAP BETWEEN TWO LINES & PARAGRAPH SPACING ===== */
+let extraLinesCount = 3;
 
-function changeLineGap(val) {
-    document.documentElement.style.setProperty('--line-gap', val);
-    updateBelowLinesHeight();
+function setLineGap(val){
+    const parts = val.split('|');
+    document.documentElement.style.setProperty('--line-height', parts[0]);
+    document.documentElement.style.setProperty('--rule-gap', parts[1]);
+    updateBelowMinHeight();
 }
 
-function changeParaGap(val) {
+function setParaGap(val){
     document.documentElement.style.setProperty('--para-gap', val);
 }
 
-function toggleRuledLines() {
-    const page = document.getElementById('letterPage');
-    const btn = document.getElementById('ruledToggleBtn');
-    page.classList.toggle('lines-off');
-    btn.classList.toggle('active-toggle');
+function toggleRuledBg(){
+    document.getElementById('pageContainer').classList.toggle('no-rules');
+    document.getElementById('ruleToggleBtn').classList.toggle('btn-active');
 }
 
-/* ===== 3. TABLE INSERTION ===== */
-function insertTable() {
-    const rows = parseInt(prompt("Enter number of rows:", "3"), 10);
-    const cols = parseInt(prompt("Enter number of columns:", "3"), 10);
-    if (!rows || !cols || rows < 1 || cols < 1) return;
-
+/* ===== 3. INSERT TABLE ===== */
+function insertTable(){
+    const r = parseInt(prompt('Number of rows:', '3'), 10);
+    const c = parseInt(prompt('Number of columns:', '3'), 10);
+    if(!r || !c || r < 1 || c < 1) return;
     let html = '<table><tbody>';
-    for (let r = 0; r < rows; r++) {
+    for(let i=0; i<r; i++){
         html += '<tr>';
-        for (let c = 0; c < cols; c++) {
-            html += '<td>&nbsp;</td>';
-        }
+        for(let j=0; j<c; j++) html += '<td>&nbsp;</td>';
         html += '</tr>';
     }
-    html += '</tbody></table><p><br></p>';
+    html += '</tbody></table>';
     document.execCommand('insertHTML', false, html);
 }
 
-/* ===== 4. SIGNATURE, ENCL. AUTO-NUMBERING & BELOW-SIGNATURE LINES ===== */
-function toggleSign() {
-    const page = document.getElementById('letterPage');
-    const btn = document.getElementById('signToggleBtn');
-    page.classList.toggle('sign-hidden');
-    btn.classList.toggle('active-toggle');
+/* ===== 4. STAMP, AUTO-NUMBERED ENCL., AND LINES BELOW SIGNATURE ===== */
+function toggleSign(){
+    document.getElementById('pageContainer').classList.toggle('sign-hidden');
+    document.getElementById('signToggleBtn').classList.toggle('btn-active');
 }
 
-function toggleEncl() {
-    const page = document.getElementById('letterPage');
-    const btn = document.getElementById('enclToggleBtn');
-    page.classList.toggle('encl-hidden');
-    btn.classList.toggle('active-toggle');
+function toggleEncl(){
+    document.getElementById('pageContainer').classList.toggle('encl-hidden');
+    document.getElementById('enclToggleBtn').classList.toggle('btn-active');
 }
 
-function addEnclItem() {
-    const page = document.getElementById('letterPage');
-    if (page.classList.contains('encl-hidden')) {
-        toggleEncl();
-    }
-    const list = document.getElementById('enclList');
+function addEnclRow(){
+    const page = document.getElementById('pageContainer');
+    if(page.classList.contains('encl-hidden')) toggleEncl();
+    const ol = document.getElementById('enclList');
     const li = document.createElement('li');
     li.innerHTML = '<br>';
-    list.appendChild(li);
-    placeCaretAtStart(li);
-    checkEnclEmpty();
-}
-
-function placeCaretAtStart(el) {
-    el.focus();
+    ol.appendChild(li);
+    li.focus();
     const range = document.createRange();
-    range.selectNodeContents(el);
+    range.selectNodeContents(li);
     range.collapse(true);
     const sel = window.getSelection();
     sel.removeAllRanges();
     sel.addRange(range);
+    syncEnclEmptyState();
 }
 
-// Keep at least one <li> inside #enclList and mark empty state for print
-const enclListEl = document.getElementById('enclList');
-function checkEnclEmpty() {
-    const text = enclListEl.innerText.trim();
-    const block = document.getElementById('enclBlock');
-    if (!text) {
-        block.classList.add('is-empty');
-    } else {
-        block.classList.remove('is-empty');
-    }
+const enclList = document.getElementById('enclList');
+function syncEnclEmptyState(){
+    const hasText = enclList.innerText.trim().length > 0;
+    document.getElementById('enclBlock').classList.toggle('empty-encl', !hasText);
 }
-
-enclListEl.addEventListener('input', () => {
-    if (enclListEl.children.length === 0) {
-        enclListEl.innerHTML = '<li><br></li>';
+enclList.addEventListener('input', () => {
+    if(enclList.children.length === 0){
+        enclList.innerHTML = '<li><br></li>';
     }
-    checkEnclEmpty();
+    syncEnclEmptyState();
 });
-checkEnclEmpty();
 
-function toggleBelowLines() {
-    const page = document.getElementById('letterPage');
-    const btn = document.getElementById('belowLinesToggleBtn');
-    page.classList.toggle('below-lines-hidden');
-    btn.classList.toggle('active-toggle');
+function toggleBelowLines(){
+    document.getElementById('pageContainer').classList.toggle('below-hidden');
+    document.getElementById('belowToggleBtn').classList.toggle('btn-active');
 }
 
-function adjustBelowLines(delta) {
-    belowLineCount = Math.max(1, belowLineCount + delta);
-    updateBelowLinesHeight();
+function changeBelowLineCount(delta){
+    extraLinesCount = Math.max(1, extraLinesCount + delta);
+    updateBelowMinHeight();
 }
 
-function updateBelowLinesHeight() {
-    const el = document.getElementById('belowSignContent');
-    el.style.minHeight = `calc(var(--line-gap) * ${belowLineCount})`;
+function updateBelowMinHeight(){
+    document.getElementById('belowSignContent').style.minHeight = `calc(var(--rule-gap) * ${extraLinesCount})`;
 }
 
-/* ===== 5. LANGUAGE TOGGLE (বাংলা / English) ===== */
-let currentLang = 'bn'; // 'bn' -> 'en' -> 'both'
-function toggleLang() {
-    currentLang = currentLang === 'bn' ? 'en' : 'bn';
+/* ===== 5. LANGUAGE SWITCH (বাংলা / English) ===== */
+let langState = 0; // 0: Bengali, 1: English
+function toggleLang(){
+    langState = langState === 0 ? 1 : 0;
     document.querySelectorAll('[data-bn][data-en]').forEach(el => {
-        if (el.id === 'estdLine' && el.dataset.both) {
-            el.innerHTML = currentLang === 'bn' ? el.dataset.both : el.dataset.en;
+        if(el.id === 'estdLine' && el.dataset.both){
+            el.innerHTML = langState === 0 ? el.dataset.both : el.dataset.en;
         } else {
-            el.innerHTML = currentLang === 'bn' ? el.dataset.bn : el.dataset.en;
+            el.innerHTML = langState === 0 ? el.dataset.bn : el.dataset.en;
         }
     });
-    const contentEl = document.getElementById('letterContent');
-    if (currentLang === 'en') {
-        enclListEl.style.listStyleType = 'decimal';
-    } else {
-        enclListEl.style.listStyleType = ' decimal';
-    }
 }
 
-/* ===== 6. MS WORD AUTOCORRECT & SPELL CHECK ===== */
-let autoCorrectEnabled = true;
-const defaultAutoCorrect = {
+/* ===== 6. MS WORD SPELL CHECK & AUTOCORRECT ===== */
+let spellAndAcActive = true;
+const defaultAcRules = {
     "teh": "the",
     "recieve": "receive",
     "seperate": "separate",
     "occured": "occurred",
-    "untill": "until",
-    "accomodate": "accommodate",
     "definately": "definitely",
     "goverment": "government",
     "govt": "Govt.",
-    "dept": "Dept.",
     "hm": "Headmaster",
     "tfhs": "Taldangra Fulmati High School (H.S.)",
     "di": "District Inspector of Schools (S.E.), Bankura",
     "wbbse": "W.B.B.S.E.",
-    "wbchse": "W.B.C.H.S.E.",
-    "-->": "→",
-    "<--": "←",
-    "(c)": "©"
+    "wbchse": "W.B.C.H.S.E."
 };
 
-let autoCorrectDict = JSON.parse(localStorage.getItem('tfhs_autocorrect_dict') || 'null') || { ...defaultAutoCorrect };
+let acRules = JSON.parse(localStorage.getItem('tfhs_ac_rules') || 'null') || { ...defaultAcRules };
 
-function saveAutoCorrectDict() {
-    localStorage.setItem('tfhs_autocorrect_dict', JSON.stringify(autoCorrectDict));
-}
-
-function toggleSpellAutoCorrect() {
-    autoCorrectEnabled = !autoCorrectEnabled;
-    const btn = document.getElementById('spellToggleBtn');
-    btn.classList.toggle('active-toggle', autoCorrectEnabled);
-    btn.textContent = (autoCorrectEnabled ? '✓ ' : '✕ ') + 'AutoCorrect & Spell';
-
-    ['letterContent', 'enclList', 'belowSignContent'].forEach(id => {
-        document.getElementById(id).setAttribute('spellcheck', autoCorrectEnabled ? 'true' : 'false');
+function toggleSpellCheck(){
+    spellAndAcActive = !spellAndAcActive;
+    const btn = document.getElementById('spellBtn');
+    btn.classList.toggle('btn-active', spellAndAcActive);
+    btn.textContent = (spellAndAcActive ? '✓ ' : '✕ ') + 'AutoCorrect & Spell';
+    ['letterContent','enclList','belowSignContent'].forEach(id => {
+        document.getElementById(id).setAttribute('spellcheck', spellAndAcActive ? 'true' : 'false');
     });
 }
 
-function handleAutoCorrectKeydown(e) {
-    if (!autoCorrectEnabled) return;
-    if (e.key !== ' ' && e.key !== 'Enter') return;
+function runAutoCorrect(e){
+    if(!spellAndAcActive) return;
+    if(e.key !== ' ' && e.key !== 'Enter') return;
 
     const sel = window.getSelection();
-    if (!sel.rangeCount || !sel.isCollapsed) return;
-
+    if(!sel.rangeCount || !sel.isCollapsed) return;
     const range = sel.getRangeAt(0);
     const node = range.startContainer;
-    if (node.nodeType !== Node.TEXT_NODE) return;
+    if(node.nodeType !== Node.TEXT_NODE) return;
 
     const textBefore = node.textContent.slice(0, range.startOffset);
     const match = textBefore.match(/(\S+)$/);
-    if (!match) return;
+    if(!match) return;
 
-    const lastWord = match[1];
-    const wordStart = range.startOffset - lastWord.length;
-    const lowerWord = lastWord.toLowerCase();
-
+    const word = match[1];
+    const startIdx = range.startOffset - word.length;
+    const lower = word.toLowerCase();
     let replacement = null;
 
-    if (autoCorrectDict[lowerWord]) {
-        replacement = autoCorrectDict[lowerWord];
-        // Preserve capitalization if user typed capitalized word
-        if (lastWord[0] === lastWord[0].toUpperCase() && lastWord[0] !== lastWord[0].toLowerCase()) {
+    if(acRules[lower]){
+        replacement = acRules[lower];
+        if(word[0] === word[0].toUpperCase() && word[0] !== word[0].toLowerCase()){
             replacement = replacement.charAt(0).toUpperCase() + replacement.slice(1);
         }
     } else {
-        // Auto-capitalize first word of sentence in English
-        const prefixBeforeWord = textBefore.slice(0, wordStart);
-        if ((prefixBeforeWord.trim() === '' || /[.!?]\s+$/.test(prefixBeforeWord)) && /^[a-z]/.test(lastWord)) {
-            replacement = lastWord.charAt(0).toUpperCase() + lastWord.slice(1);
+        const beforeWord = textBefore.slice(0, startIdx);
+        if((beforeWord.trim() === '' || /[.!?]\s+$/.test(beforeWord)) && /^[a-z]/.test(word)){
+            replacement = word.charAt(0).toUpperCase() + word.slice(1);
         }
     }
 
-    if (replacement && replacement !== lastWord) {
-        const replaceRange = document.createRange();
-        replaceRange.setStart(node, wordStart);
-        replaceRange.setEnd(node, range.startOffset);
+    if(replacement && replacement !== word){
+        const r = document.createRange();
+        r.setStart(node, startIdx);
+        r.setEnd(node, range.startOffset);
         sel.removeAllRanges();
-        sel.addRange(replaceRange);
+        sel.addRange(r);
         document.execCommand('insertText', false, replacement);
     }
 }
 
-['letterContent', 'enclList', 'belowSignContent'].forEach(id => {
-    document.getElementById(id).addEventListener('keydown', handleAutoCorrectKeydown);
+['letterContent','enclList','belowSignContent'].forEach(id => {
+    document.getElementById(id).addEventListener('keydown', runAutoCorrect);
 });
 
-function openAutoCorrectModal() {
-    renderAutoCorrectList();
+function openAcModal(){
+    renderAcList();
     document.getElementById('acModal').classList.add('open');
 }
-
-function closeAutoCorrectModal() {
+function closeAcModal(){
     document.getElementById('acModal').classList.remove('open');
 }
-
-function renderAutoCorrectList() {
-    const container = document.getElementById('acListContainer');
-    container.innerHTML = Object.entries(autoCorrectDict).map(([k, v]) => `
+function renderAcList(){
+    const box = document.getElementById('acItemsList');
+    box.innerHTML = Object.entries(acRules).map(([k,v]) => `
         <div class="ac-item">
             <span><b>${k}</b> &rarr; ${v}</span>
-            <button type="button" onclick="deleteAutoCorrectRule('${k.replace(/'/g, "\\'")}')">Delete</button>
+            <button type="button" onclick="removeAcEntry('${k.replace(/'/g,"\\'")}')">Delete</button>
         </div>
     `).join('');
 }
-
-function addAutoCorrectRule() {
-    const fromVal = document.getElementById('acFrom').value.trim().toLowerCase();
-    const toVal = document.getElementById('acTo').value.trim();
-    if (!fromVal || !toVal) return;
-    autoCorrectDict[fromVal] = toVal;
-    saveAutoCorrectDict();
-    document.getElementById('acFrom').value = '';
-    document.getElementById('acTo').value = '';
-    renderAutoCorrectList();
+function addAcEntry(){
+    const k = document.getElementById('acKey').value.trim().toLowerCase();
+    const v = document.getElementById('acVal').value.trim();
+    if(!k || !v) return;
+    acRules[k] = v;
+    localStorage.setItem('tfhs_ac_rules', JSON.stringify(acRules));
+    document.getElementById('acKey').value = '';
+    document.getElementById('acVal').value = '';
+    renderAcList();
+}
+function removeAcEntry(k){
+    delete acRules[k];
+    localStorage.setItem('tfhs_ac_rules', JSON.stringify(acRules));
+    renderAcList();
 }
 
-function deleteAutoCorrectRule(key) {
-    delete autoCorrectDict[key];
-    saveAutoCorrectDict();
-    renderAutoCorrectList();
-}
+/* ===== 7. RESTORE ORIGINAL LOGO, WATERMARK & STAMP FROM GITHUB COMMIT HISTORY ===== */
+async function loadOriginalImages(){
+    const logoImg = document.getElementById('logoImg');
+    const signImg = document.getElementById('signImg');
+    const wmEl = document.getElementById('watermarkEl');
 
-/* ===== 7. DEFAULT DATE & AUTO-LOAD EMBEDDED BASE64 IMAGES FROM LIVE SITE ===== */
-function setTodayDates() {
-    const now = new Date();
-    const dd = String(now.getDate()).padStart(2, '0');
-    const mm = String(now.getMonth() + 1).padStart(2, '0');
-    const yyyy = now.getFullYear();
-    const formatted = `${dd}/${mm}/${yyyy}`;
-    const signDateEl = document.getElementById('signDate');
-    if (signDateEl && !signDateEl.textContent.trim()) {
-        signDateEl.textContent = formatted;
-    }
-}
+    if(logoImg.getAttribute('src') && signImg.getAttribute('src')) return;
 
-async function restoreOriginalImages() {
-    const logoEl = document.getElementById('schoolLogoImg');
-    const signEl = document.getElementById('signImg');
-    const wmEl = document.getElementById('watermarkDiv');
-
-    // Check if images are already embedded in the HTML
-    if (logoEl.getAttribute('src') && signEl.getAttribute('src')) return;
-
-    // 1. Check localStorage cache first
-    const cached = JSON.parse(localStorage.getItem('tfhs_embedded_images_v1') || 'null');
-    if (cached && cached.logo && cached.sign) {
-        logoEl.src = cached.logo;
-        signEl.src = cached.sign;
+    const cached = JSON.parse(localStorage.getItem('tfhs_orig_assets_v2') || 'null');
+    if(cached && cached.logo && cached.sign){
+        logoImg.src = cached.logo;
+        signImg.src = cached.sign;
         wmEl.style.backgroundImage = `url('${cached.logo}')`;
         return;
     }
 
-    // 2. Fetch from live GitHub Pages or recent repo commit
-    const urlsToTry = [
-        'https://prabirdangar-web.github.io/letter_head/',
-        'https://raw.githubusercontent.com/prabirdangar-web/letter_head/main/index.html'
-    ];
+    try{
+        // Search repository commit history so even if main was overwritten, earlier intact Base64 images are recovered
+        const commitsResp = await fetch('https://api.github.com/repos/prabirdangar-web/letter_head/commits?per_page=10');
+        const commits = commitsResp.ok ? await commitsResp.json() : [];
+        const rawUrls = commits.map(c => `https://raw.githubusercontent.com/prabirdangar-web/letter_head/${c.sha}/index.html`);
+        rawUrls.unshift('https://prabirdangar-web.github.io/letter_head/');
 
-    for (const url of urlsToTry) {
-        try {
-            const resp = await fetch(url);
-            if (!resp.ok) continue;
-            const htmlText = await resp.text();
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlText, 'text/html');
-            const remoteLogo = doc.querySelector('.logo-wrap img')?.getAttribute('src');
-            const remoteSign = doc.querySelector('#signImg')?.getAttribute('src');
+        let foundLogo = null;
+        let foundSign = null;
 
-            if (remoteLogo && remoteSign && remoteSign.length > 1000) {
-                logoEl.src = remoteLogo;
-                signEl.src = remoteSign;
-                wmEl.style.backgroundImage = `url('${remoteLogo}')`;
-                localStorage.setItem('tfhs_embedded_images_v1', JSON.stringify({
-                    logo: remoteLogo,
-                    sign: remoteSign
-                }));
-                break;
-            }
-        } catch (err) {
-            console.warn('Could not fetch from', url, err);
+        for(const url of rawUrls){
+            try{
+                const r = await fetch(url);
+                if(!r.ok) continue;
+                const txt = await r.text();
+                const doc = new DOMParser().parseFromString(txt, 'text/html');
+                const l = doc.querySelector('.logo-wrap img')?.getAttribute('src');
+                const s = doc.querySelector('#signImg')?.getAttribute('src');
+                if(!foundLogo && l && l.startsWith('data:image')) foundLogo = l;
+                if(!foundSign && s && s.startsWith('data:image') && s.length > 1000) foundSign = s;
+                if(foundLogo && foundSign) break;
+            }catch(e){}
         }
+
+        if(foundLogo){
+            logoImg.src = foundLogo;
+            wmEl.style.backgroundImage = `url('${foundLogo}')`;
+        }
+        if(foundSign){
+            signImg.src = foundSign;
+        }
+        if(foundLogo && foundSign){
+            localStorage.setItem('tfhs_orig_assets_v2', JSON.stringify({ logo: foundLogo, sign: foundSign }));
+        }
+    }catch(err){
+        console.warn('Image recovery error:', err);
     }
 }
 
-function downloadStandaloneHTML() {
-    const clone = document.documentElement.cloneNode(true);
-    const modal = clone.querySelector('#acModal');
-    if (modal) modal.classList.remove('open');
+function initSignDate(){
+    const el = document.getElementById('signDate');
+    if(el && !el.textContent.trim()){
+        const d = new Date();
+        el.textContent = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
+    }
+}
 
-    const fullHtml = '<!DOCTYPE html>\n' + clone.outerHTML;
-    const blob = new Blob([fullHtml], { type: 'text/html;charset=utf-8' });
+function saveFullHTML(){
+    const clone = document.documentElement.cloneNode(true);
+    clone.querySelector('#acModal')?.classList.remove('open');
+    const htmlStr = '<!DOCTYPE html>\n' + clone.outerHTML;
+    const blob = new Blob([htmlStr], { type: 'text/html;charset=utf-8' });
     const a = document.createElement('a');
     a.href = URL.createObjectURL(blob);
     a.download = 'index.html';
@@ -1240,8 +1148,8 @@ function downloadStandaloneHTML() {
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-    setTodayDates();
-    restoreOriginalImages();
+    initSignDate();
+    loadOriginalImages();
 });
 </script>
 
