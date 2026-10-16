@@ -49,14 +49,14 @@ body{
     overflow:hidden;
 }
 
-/* watermark - unique identity mark, very light so it stays printer/ink friendly */
+/* Watermark: multiple times tiled across the page background, extremely light and printer-friendly */
 .watermark{
     position:absolute;
     inset:0;
-    background-repeat:no-repeat;
-    background-position:center 58%;
-    background-size:270px;
-    opacity:.05;
+    background-repeat:repeat;
+    background-position:center;
+    background-size:220px 220px;
+    opacity:0.04;
     pointer-events:none;
     z-index:0;
 }
@@ -209,15 +209,15 @@ body{
 .header-inner{
     display:flex;
     align-items:center;
-    gap:14px;
-    padding:10px 6px 8px;
+    gap:16px;
+    padding:12px 10px 10px;
     width:100%;
 }
 
 .logo-wrap{
     flex:0 0 auto;
-    width:96px;
-    height:96px;
+    width:110px;
+    height:110px;
     border-radius:50%;
     padding:3px;
     background:#000;
@@ -242,22 +242,28 @@ body{
     overflow:hidden;
 }
 
+.title .dual-name-block {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 100%;
+}
+
 .title .name-en{
-    font-size:24.5px;
+    font-size:26px;
     color:#0a4f8f;
     font-weight:800;
-    letter-spacing:.2px;
+    letter-spacing:.3px;
     text-transform:uppercase;
-    white-space:nowrap;
     line-height:1.2;
+    text-align: center;
 }
 
 .title .name-bn{
-    margin-top:4px;
-    font-size:29px;
+    font-size:31px;
     font-weight:800;
-    letter-spacing:.2px;
-    white-space:nowrap;
+    letter-spacing:.3px;
     line-height:1.25;
     background:linear-gradient(180deg,#FF9933 0%,#FF9933 32%,#1a1a1a 32%,#1a1a1a 68%,#128807 68%,#128807 100%);
     -webkit-background-clip:text;
@@ -266,44 +272,51 @@ body{
     color:transparent;
     -webkit-text-stroke:0.6px rgba(0,0,0,.35);
     text-shadow:1px 2px 3px rgba(0,0,0,.25);
+    text-align: center;
 }
 
 .title .estd{
-    margin-top:8px;
+    margin-top:6px;
     display:inline-block;
-    font-size:18px;
+    font-size:16px;
     color:#000;
     font-weight:700;
     letter-spacing:.3px;
     border:2px solid #000;
     border-radius:999px;
-    padding:4px 22px;
+    padding:3px 20px;
     background:#f7f7f7;
 }
 
-/* ===== ADDRESS / CONTACT STRIP ===== */
+/* ===== ADDRESS / CONTACT STRIP (Expanded Both Bengali & English) ===== */
 .contact-strip{
     background:#f7f7f7;
     color:#000;
-    padding:4px 8px;
+    padding:8px 10px;
     display:flex;
-    flex-wrap:wrap;
-    justify-content:center;
+    flex-direction:column;
     align-items:center;
-    gap:2px 12px;
+    gap:6px;
     text-align:center;
     border-top:2px solid #000;
     width:100%;
     overflow:hidden;
 }
 
+.contact-strip .addr-block {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    width: 100%;
+    align-items: center;
+}
+
 .contact-strip .addr{
     font-weight:700;
     width:100%;
     text-align:center;
-    font-size:15px;
-    white-space:nowrap;
-    line-height:1.2;
+    font-size:14.5px;
+    line-height:1.3;
 }
 
 .contact-strip .row2{
@@ -311,15 +324,15 @@ body{
     flex-wrap:wrap;
     justify-content:center;
     align-items:center;
-    gap:3px 12px;
+    gap:6px 16px;
     width:100%;
     margin-top:2px;
-    font-size:11.5px;
-    line-height:1.15;
+    font-size:13px;
+    line-height:1.25;
 }
 
 .contact-strip .sep{
-    height:12px;
+    height:14px;
     width:1px;
     background:rgba(0,0,0,.4);
 }
@@ -327,9 +340,8 @@ body{
 .contact-strip .item{
     display:flex;
     align-items:center;
-    gap:5px;
+    gap:6px;
     font-weight:500;
-    white-space:nowrap;
 }
 
 .contact-strip b{
@@ -386,823 +398,4 @@ body{
     background-position:0 4px;
 }
 
-.content p,
-.content div,
-.below-sign-content p,
-.below-sign-content div{
-    margin-bottom:var(--para-gap);
-}
-
-.content ul, .content ol,
-.below-sign-content ul, .below-sign-content ol{
-    padding-left:26px;
-}
-
-.content:empty::before{
-    content:"এখানে ক্লিক করে চিঠি লিখুন...";
-    color:#a8a8a8;
-    font-style:italic;
-}
-
-.content:focus,
-.below-sign-content:focus{
-    background-color:rgba(251,253,255,.5);
-}
-
-.content table,
-.below-sign-content table{
-    border-collapse:collapse;
-    width:100%;
-    margin:10px 0;
-}
-
-.content table td,
-.below-sign-content table td{
-    border:1px solid #333;
-    padding:6px 8px;
-    min-width:40px;
-}
-
-/* ===== SIGNATURE BLOCK (EXACT ORIGINAL PLACEMENT, SENDER LINES REMOVED) ===== */
-.footer{
-    flex:0 0 auto;
-    margin-top:10px;
-}
-
-.sign-block{
-    display:flex;
-    justify-content:flex-end;
-    align-items:flex-start;
-    padding:0 4mm 4mm;
-}
-
-.sender-left{
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-}
-
-.sign-wrap{
-    position:relative;
-    width:170px;
-    line-height:0;
-}
-
-.sign-date{
-    position:absolute;
-    left:0;
-    right:0;
-    top:44%;
-    text-align:center;
-    font-family:'Caveat',cursive;
-    font-size:19px;
-    color:#333333;
-    outline:none;
-    white-space:nowrap;
-}
-
-.sign-img{
-    width:170px;
-    height:auto;
-    display:block;
-    mix-blend-mode:multiply;
-}
-
-/* ===== AFTER STAMP: AUTO-NUMBERING ENCL. SECTION ===== */
-.encl-block{
-    flex:0 0 auto;
-    padding:2px 8px 4px;
-    font-size:15.5px;
-    color:#1c1c1c;
-    overflow-wrap:break-word;
-    word-break:break-word;
-}
-
-.encl-title{
-    font-weight:700;
-    text-decoration:underline;
-    outline:none;
-    display:inline-block;
-    margin-bottom:2px;
-}
-
-.encl-list{
-    padding-left:24px;
-    line-height:var(--line-height);
-    outline:none;
-}
-
-.encl-list li{
-    padding-left:4px;
-    margin-bottom:2px;
-}
-
-.encl-list li::marker{
-    font-weight:600;
-}
-
-/* ===== RULED LINES BELOW SIGNATURE ===== */
-.below-sign-content{
-    flex:0 0 auto;
-    min-height:calc(var(--rule-gap) * 3);
-    padding:6px 8px 8px;
-    font-size:16px;
-    line-height:var(--line-height);
-    color:#1c1c1c;
-    outline:none;
-    overflow-wrap:break-word;
-    word-wrap:break-word;
-    word-break:break-word;
-    background-image:repeating-linear-gradient(
-        to bottom,
-        transparent,
-        transparent calc(var(--rule-gap) - 1px),
-        #dce6f0 var(--rule-gap)
-    );
-    background-position:0 4px;
-    margin-top:2px;
-}
-
-.below-sign-content:empty::before{
-    content:"স্বাক্ষরের নিচে মেমো / অনুলিপি (Copy forwarded to) বা অতিরিক্ত লাইন লিখুন...";
-    color:#a8a8a8;
-    font-style:italic;
-    font-size:14px;
-}
-
-/* ===== AUTOCORRECT MODAL ===== */
-.ac-modal-wrap{
-    display:none;
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,.45);
-    z-index:100;
-    align-items:center;
-    justify-content:center;
-}
-.ac-modal-wrap.open{ display:flex; }
-.ac-modal{
-    background:#fff;
-    padding:16px;
-    border-radius:8px;
-    width:440px;
-    max-width:95vw;
-    box-shadow:0 6px 20px rgba(0,0,0,.25);
-    font-size:13.5px;
-}
-.ac-modal h4{
-    color:#0a4f8f;
-    margin-bottom:8px;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-.ac-row{
-    display:flex;
-    gap:6px;
-    margin-bottom:10px;
-}
-.ac-row input{
-    flex:1;
-    padding:5px 8px;
-    border:1px solid #bbb;
-    border-radius:4px;
-}
-.ac-row button{
-    padding:5px 12px;
-    background:#0a4f8f;
-    color:#fff;
-    border:none;
-    border-radius:4px;
-    cursor:pointer;
-}
-.ac-items{
-    max-height:180px;
-    overflow-y:auto;
-    border:1px solid #ddd;
-    border-radius:4px;
-    padding:4px 8px;
-}
-.ac-item{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    padding:4px 0;
-    border-bottom:1px solid #f0f0f0;
-}
-.ac-item button{
-    background:#c0392b;
-    color:#fff;
-    border:none;
-    border-radius:3px;
-    padding:2px 6px;
-    font-size:11px;
-    cursor:pointer;
-}
-
-/* ===== PRINTER-FRIENDLY OVERRIDES ===== */
-@media print{
-    .toolbar,
-    .format-toolbar,
-    .ac-modal-wrap{
-        display:none !important;
-    }
-    body{
-        background:#fff;
-        padding:0;
-    }
-    .page{
-        box-shadow:none;
-        margin:0;
-        width:210mm;
-        min-height:auto;
-    }
-    .title .name-en{
-        color:#000 !important;
-    }
-    .title .name-bn{
-        background:none !important;
-        -webkit-background-clip:initial !important;
-        background-clip:initial !important;
-        -webkit-text-fill-color:#000 !important;
-        color:#000 !important;
-        -webkit-text-stroke:0 !important;
-        text-shadow:none !important;
-    }
-    .content,
-    .below-sign-content{
-        background-image:repeating-linear-gradient(
-            to bottom,
-            transparent,
-            transparent calc(var(--rule-gap) - 1px),
-            #e6e6e6 var(--rule-gap)
-        );
-    }
-    .content:empty::before,
-    .below-sign-content:empty::before{
-        content:"";
-    }
-    .encl-block.empty-encl{
-        display:none !important;
-    }
-    .sign-img{
-        mix-blend-mode:normal;
-    }
-    .sign-date{
-        color:#333333 !important;
-        -webkit-print-color-adjust:exact;
-        print-color-adjust:exact;
-    }
-}
-</style>
-</head>
-
-<body>
-
-<div class="toolbar">
-    <button type="button" onclick="prepareAndPrint()">🖨 Print</button>
-    <button type="button" id="langBtn" onclick="toggleLang()">বাংলা / English</button>
-    <button type="button" onclick="saveFullHTML()" title="Download complete standalone index.html with embedded images">💾 Save Full HTML</button>
-
-    <div class="format-toolbar">
-        <button type="button" onclick="fmt('undo')" title="Undo">↶</button>
-        <button type="button" onclick="fmt('redo')" title="Redo">↷</button>
-        <span class="fdiv"></span>
-
-        <select onchange="fmt('fontName', this.value); this.value='';" title="Font">
-            <option value="">Font</option>
-            <option value="'Noto Sans Bengali', sans-serif">Noto Sans Bengali</option>
-            <option value="'Times New Roman', serif">Times New Roman</option>
-            <option value="Arial, sans-serif">Arial</option>
-            <option value="Calibri, sans-serif">Calibri</option>
-        </select>
-
-        <select onchange="fmt('fontSize', this.value); this.value='';" title="Size">
-            <option value="">Size</option>
-            <option value="2">Small</option>
-            <option value="3">Normal</option>
-            <option value="4">Medium</option>
-            <option value="5">Large</option>
-            <option value="6">X-Large</option>
-        </select>
-        <span class="fdiv"></span>
-
-        <button type="button" onclick="fmt('bold')" title="Bold"><b>B</b></button>
-        <button type="button" onclick="fmt('italic')" title="Italic"><i>I</i></button>
-        <button type="button" onclick="fmt('underline')" title="Underline"><u>U</u></button>
-
-        <!-- MS Word Underline Styles -->
-        <select onchange="setUnderlineStyle(this.value); this.value='';" title="MS Word Underline Styles">
-            <option value="">U̲ Style ▾</option>
-            <option value="u-single">Single ────</option>
-            <option value="u-double">Double ════</option>
-            <option value="u-dotted">Dotted ┈┈┈┈</option>
-            <option value="u-dashed">Dashed ╌╌╌╌</option>
-            <option value="u-wavy">Wavy ～～～～</option>
-            <option value="u-thick">Thick ━━━━</option>
-            <option value="u-none">✕ No Underline</option>
-        </select>
-
-        <button type="button" onclick="fmt('strikeThrough')" title="Strikethrough"><s>S</s></button>
-        <button type="button" onclick="fmt('superscript')" title="Superscript">X²</button>
-        <button type="button" onclick="fmt('subscript')" title="Subscript">X₂</button>
-        <span class="fdiv"></span>
-
-        <label class="color-lbl" title="Text Color">A̲<input type="color" value="#1c1c1c" onchange="fmt('foreColor', this.value)"></label>
-        <label class="color-lbl" title="Highlight">🖍<input type="color" value="#ffff00" onchange="fmt('hiliteColor', this.value)"></label>
-        <span class="fdiv"></span>
-
-        <button type="button" onclick="fmt('justifyLeft')" title="Align Left">⯇</button>
-        <button type="button" onclick="fmt('justifyCenter')" title="Align Center">☰</button>
-        <button type="button" onclick="fmt('justifyRight')" title="Align Right">⯈</button>
-        <button type="button" onclick="fmt('justifyFull')" title="Justify">☰☰</button>
-        <button type="button" onclick="fmt('indent')" title="Indent">⇥</button>
-        <button type="button" onclick="fmt('outdent')" title="Outdent">⇤</button>
-        <span class="fdiv"></span>
-
-        <!-- Gap Between Two Lines (Line Spacing) -->
-        <select onchange="setLineGap(this.value)" title="Gap Between Two Lines">
-            <option value="20px|28px" selected>↕ Line Gap: Default</option>
-            <option value="22px|24px">↕ Gap: 1.0 (Tight)</option>
-            <option value="26px|26px">↕ Gap: 1.15</option>
-            <option value="28px|28px">↕ Gap: 1.3 (Aligned)</option>
-            <option value="32px|32px">↕ Gap: 1.5</option>
-            <option value="38px|38px">↕ Gap: 1.8</option>
-            <option value="44px|44px">↕ Gap: 2.0 (Double)</option>
-        </select>
-
-        <select onchange="setParaGap(this.value)" title="Paragraph Gap">
-            <option value="0px" selected>Para: 0pt</option>
-            <option value="6px">Para: 6pt</option>
-            <option value="12px">Para: 12pt</option>
-            <option value="18px">Para: 18pt</option>
-        </select>
-        <span class="fdiv"></span>
-
-        <button type="button" onclick="fmt('insertUnorderedList')">• List</button>
-        <button type="button" onclick="fmt('insertOrderedList')">1. List</button>
-        <button type="button" onclick="insertTable()">⊞ Table</button>
-        <button type="button" onclick="fmt('removeFormat')">Clear</button>
-        <span class="fdiv"></span>
-
-        <button type="button" id="signToggleBtn" class="btn-active" onclick="toggleSign()">✓ Sig/Date/Seal</button>
-        <button type="button" id="enclToggleBtn" class="btn-active" onclick="toggleEncl()">✓ Encl.</button>
-        <button type="button" onclick="addEnclRow()" title="Add Auto-Numbered Enclosure Line">+ Encl.#</button>
-        <span class="fdiv"></span>
-
-        <button type="button" id="belowToggleBtn" class="btn-active" onclick="toggleBelowLines()">✓ Below Sig Lines</button>
-        <button type="button" onclick="changeBelowLineCount(1)" title="Add Line Below Signature">+ Line</button>
-        <button type="button" onclick="changeBelowLineCount(-1)" title="Remove Line Below Signature">- Line</button>
-        <button type="button" id="ruleToggleBtn" class="btn-active" onclick="toggleRuledBg()" title="Toggle Notepad Lines">📏 Lines</button>
-        <span class="fdiv"></span>
-
-        <button type="button" id="spellBtn" class="btn-active" onclick="toggleSpellCheck()">✓ AutoCorrect & Spell</button>
-        <button type="button" onclick="openAcModal()" title="Edit AutoCorrect Words">⚙ AutoCorrect</button>
-    </div>
-</div>
-
-<div class="page" id="pageContainer">
-
-    <div class="watermark" id="watermarkEl"></div>
-
-    <div class="info-strip">
-        <span>INDEX NO : U1-083</span>
-        <span class="sep">|</span>
-        <span>UDISE : 19132104401</span>
-        <span class="sep">|</span>
-        <span>H.S. CODE : 114071</span>
-        <span class="sep">|</span>
-        <span>VTC CODE : 5006</span>
-    </div>
-
-    <div class="header">
-        <div class="header-inner">
-            <div class="logo-wrap">
-                <img id="logoImg" src="" alt="School Logo">
-            </div>
-
-            <div class="title" id="titleBox">
-                <div class="name-en" id="nameEn">Taldangra Fulmati High School (H.S.)</div>
-                <div class="name-bn" id="nameBn">তালডাংরা ফুলমতি উচ্চ বিদ্যালয় (উ:মা:)</div>
-                <div class="estd" id="estdLine" data-bn="স্থাপিত ১৯৫৬" data-en="Estd. 1956" data-both="স্থাপিত ১৯৫৬ &nbsp;/&nbsp; Estd. 1956">স্থাপিত ১৯৫৬ &nbsp;/&nbsp; Estd. 1956</div>
-            </div>
-        </div>
-
-        <div class="contact-strip" id="contactBox">
-            <div class="addr" id="addrLine" data-bn="পো. ও ব্লক – তালডাংরা, মহকুমা – খাতড়া, জেলা – বাঁকুড়া, পশ্চিমবঙ্গ, পিন – ৭২২১৫২" data-en="P.O. &amp; Block – Taldangra, Sub-Div – Khatra, Dist – Bankura, West Bengal, PIN – 722152">পো. ও ব্লক – তালডাংরা, মহকুমা – খাতড়া, জেলা – বাঁকুড়া, পশ্চিমবঙ্গ, পিন – ৭২২১৫২</div>
-            <div class="row2">
-                <div class="item">☎️ <span id="landlineLabel" data-bn="ল্যান্ডলাইন" data-en="Landline">ল্যান্ডলাইন</span> : <b><span id="landlineNum" data-bn="০৩২৪৩-২৬৫১১৪" data-en="03243-265114">০৩২৪৩-২৬৫১১৪</span></b></div>
-                <div class="sep"></div>
-                <div class="item">📞 <b><span id="mobileNum" data-bn="৯৪৩৪৬৫৪৬৭৮ / ৯৯৩৩০৩৫৮১১" data-en="9434654678 / 9933035811">৯৪৩৪৬৫৪৬৭৮ / ৯৯৩৩০৩৫৮১১</span></b> (<span id="mobileLabel" data-bn="প্রধান শিক্ষক" data-en="H.M.">প্রধান শিক্ষক</span>)</div>
-                <div class="sep"></div>
-                <div class="item">📧 highschooltaldangrafulmati@gmail.com</div>
-            </div>
-        </div>
-    </div>
-
-    <div class="memo">
-        <div><span id="memoLabel" data-bn="স্মারক নং :" data-en="Memo No. :">স্মারক নং :</span><span contenteditable="true" spellcheck="false">&nbsp;</span></div>
-        <div><span id="dateLabel" data-bn="তারিখ :" data-en="Date :">তারিখ :</span><span contenteditable="true" spellcheck="false">&nbsp;</span></div>
-    </div>
-
-    <!-- MAIN LETTER BODY -->
-    <div class="content" contenteditable="true" id="letterContent" spellcheck="true"></div>
-
-    <!-- SIGNATURE STAMP BLOCK (EXACT EARLIER PLACEMENT, SENDER LINES REMOVED) -->
-    <div class="sign-block">
-        <div class="sender-left">
-            <div class="sign-wrap">
-                <img id="signImg" class="sign-img" src="" alt="Signature &amp; Stamp">
-                <div class="sign-date" id="signDate" contenteditable="true" spellcheck="false"></div>
-            </div>
-        </div>
-    </div>
-
-    <!-- AFTER STAMP: AUTO-NUMBERING ENCL. -->
-    <div class="encl-block empty-encl" id="enclBlock">
-        <span class="encl-title" id="enclLabel" data-bn="সংযুক্তি (Encl.) :" data-en="Encl. :" contenteditable="true">সংযুক্তি (Encl.) :</span>
-        <ol class="encl-list" id="enclList" contenteditable="true" spellcheck="true">
-            <li></li>
-        </ol>
-    </div>
-
-    <!-- BELOW SIGNATURE LINES -->
-    <div class="below-sign-content" contenteditable="true" id="belowSignContent" spellcheck="true"></div>
-
-</div>
-
-<!-- AUTOCORRECT DICTIONARY MODAL -->
-<div class="ac-modal-wrap" id="acModal">
-    <div class="ac-modal">
-        <h4>
-            <span>⚙ MS Word AutoCorrect Dictionary</span>
-            <button type="button" onclick="closeAcModal()" style="border:none;background:#888;color:#fff;padding:2px 8px;border-radius:4px;cursor:pointer;">✕</button>
-        </h4>
-        <div class="ac-row">
-            <input type="text" id="acKey" placeholder="Type shortcut (e.g. tfhs)">
-            <input type="text" id="acVal" placeholder="Replacement text">
-            <button type="button" onclick="addAcEntry()">Add</button>
-        </div>
-        <div class="ac-items" id="acItemsList"></div>
-    </div>
-</div>
-
-<script>
-/* ===== 0. AUTO-FIT HEADER LINES SO THEY NEVER GO OUTSIDE ===== */
-function fitSingleLine(el, maxPx, minPx){
-    if(!el) return;
-    el.style.fontSize = maxPx + 'px';
-    const parentWidth = el.parentElement.clientWidth - 4;
-    if(parentWidth <= 0) return;
-    let size = maxPx;
-    while(el.scrollWidth > parentWidth && size > minPx){
-        size -= 0.5;
-        el.style.fontSize = size + 'px';
-    }
-}
-
-function fitHeaderLines(){
-    fitSingleLine(document.getElementById('nameEn'), 25, 14);
-    fitSingleLine(document.getElementById('nameBn'), 30, 16);
-    fitSingleLine(document.getElementById('addrLine'), 15.5, 10);
-}
-
-function prepareAndPrint(){
-    fitHeaderLines();
-    window.print();
-}
-
-window.addEventListener('resize', fitHeaderLines);
-window.addEventListener('beforeprint', fitHeaderLines);
-if(document.fonts && document.fonts.ready){
-    document.fonts.ready.then(fitHeaderLines);
-}
-
-/* ===== 1. RICH TEXT & MS WORD UNDERLINE STYLES ===== */
-function fmt(cmd, val = null){
-    document.execCommand(cmd, false, val);
-}
-
-function setUnderlineStyle(cls){
-    if(!cls) return;
-    const sel = window.getSelection();
-    if(!sel.rangeCount) return;
-    const range = sel.getRangeAt(0);
-    if(range.collapsed) return;
-
-    const allStyles = ['u-single','u-double','u-dotted','u-dashed','u-wavy','u-thick','u-none'];
-    let parent = range.commonAncestorContainer.nodeType === 1
-        ? range.commonAncestorContainer
-        : range.commonAncestorContainer.parentElement;
-
-    if(parent && parent.tagName === 'SPAN' && allStyles.some(c => parent.classList.contains(c))){
-        allStyles.forEach(c => parent.classList.remove(c));
-        parent.classList.add(cls);
-        return;
-    }
-
-    const span = document.createElement('span');
-    span.className = cls;
-    try{
-        span.appendChild(range.extractContents());
-        range.insertNode(span);
-        sel.removeAllRanges();
-        const nr = document.createRange();
-        nr.selectNodeContents(span);
-        sel.addRange(nr);
-    }catch(e){
-        document.execCommand('underline', false, null);
-    }
-}
-
-/* ===== 2. GAP BETWEEN TWO LINES & PARAGRAPH SPACING ===== */
-let extraLinesCount = 3;
-
-function setLineGap(val){
-    const parts = val.split('|');
-    document.documentElement.style.setProperty('--line-height', parts[0]);
-    document.documentElement.style.setProperty('--rule-gap', parts[1]);
-    updateBelowMinHeight();
-}
-
-function setParaGap(val){
-    document.documentElement.style.setProperty('--para-gap', val);
-}
-
-function toggleRuledBg(){
-    document.getElementById('pageContainer').classList.toggle('no-rules');
-    document.getElementById('ruleToggleBtn').classList.toggle('btn-active');
-}
-
-/* ===== 3. INSERT TABLE ===== */
-function insertTable(){
-    const r = parseInt(prompt('Number of rows:', '3'), 10);
-    const c = parseInt(prompt('Number of columns:', '3'), 10);
-    if(!r || !c || r < 1 || c < 1) return;
-    let html = '<table><tbody>';
-    for(let i=0; i<r; i++){
-        html += '<tr>';
-        for(let j=0; j<c; j++) html += '<td>&nbsp;</td>';
-        html += '</tr>';
-    }
-    html += '</tbody></table>';
-    document.execCommand('insertHTML', false, html);
-}
-
-/* ===== 4. STAMP, AUTO-NUMBERED ENCL., AND LINES BELOW SIGNATURE ===== */
-function toggleSign(){
-    document.getElementById('pageContainer').classList.toggle('sign-hidden');
-    document.getElementById('signToggleBtn').classList.toggle('btn-active');
-}
-
-function toggleEncl(){
-    document.getElementById('pageContainer').classList.toggle('encl-hidden');
-    document.getElementById('enclToggleBtn').classList.toggle('btn-active');
-}
-
-function addEnclRow(){
-    const page = document.getElementById('pageContainer');
-    if(page.classList.contains('encl-hidden')) toggleEncl();
-    const ol = document.getElementById('enclList');
-    const li = document.createElement('li');
-    li.innerHTML = '<br>';
-    ol.appendChild(li);
-    li.focus();
-    const range = document.createRange();
-    range.selectNodeContents(li);
-    range.collapse(true);
-    const sel = window.getSelection();
-    sel.removeAllRanges();
-    sel.addRange(range);
-    syncEnclEmptyState();
-}
-
-const enclList = document.getElementById('enclList');
-function syncEnclEmptyState(){
-    const hasText = enclList.innerText.trim().length > 0;
-    document.getElementById('enclBlock').classList.toggle('empty-encl', !hasText);
-}
-enclList.addEventListener('input', () => {
-    if(enclList.children.length === 0){
-        enclList.innerHTML = '<li><br></li>';
-    }
-    syncEnclEmptyState();
-});
-
-function toggleBelowLines(){
-    document.getElementById('pageContainer').classList.toggle('below-hidden');
-    document.getElementById('belowToggleBtn').classList.toggle('btn-active');
-}
-
-function changeBelowLineCount(delta){
-    extraLinesCount = Math.max(1, extraLinesCount + delta);
-    updateBelowMinHeight();
-}
-
-function updateBelowMinHeight(){
-    document.getElementById('belowSignContent').style.minHeight = `calc(var(--rule-gap) * ${extraLinesCount})`;
-}
-
-/* ===== 5. LANGUAGE SWITCH (বাংলা / English) ===== */
-let langState = 0; // 0: Bengali, 1: English
-function toggleLang(){
-    langState = langState === 0 ? 1 : 0;
-    document.querySelectorAll('[data-bn][data-en]').forEach(el => {
-        if(el.id === 'estdLine' && el.dataset.both){
-            el.innerHTML = langState === 0 ? el.dataset.both : el.dataset.en;
-        } else {
-            el.innerHTML = langState === 0 ? el.dataset.bn : el.dataset.en;
-        }
-    });
-    fitHeaderLines();
-}
-
-/* ===== 6. MS WORD SPELL CHECK & AUTOCORRECT ===== */
-let spellAndAcActive = true;
-const defaultAcRules = {
-    "teh": "the",
-    "recieve": "receive",
-    "seperate": "separate",
-    "occured": "occurred",
-    "definately": "definitely",
-    "goverment": "government",
-    "govt": "Govt.",
-    "hm": "Headmaster",
-    "tfhs": "Taldangra Fulmati High School (H.S.)",
-    "di": "District Inspector of Schools (S.E.), Bankura",
-    "wbbse": "W.B.B.S.E.",
-    "wbchse": "W.B.C.H.S.E."
-};
-
-let acRules = JSON.parse(localStorage.getItem('tfhs_ac_rules') || 'null') || { ...defaultAcRules };
-
-function toggleSpellCheck(){
-    spellAndAcActive = !spellAndAcActive;
-    const btn = document.getElementById('spellBtn');
-    btn.classList.toggle('btn-active', spellAndAcActive);
-    btn.textContent = (spellAndAcActive ? '✓ ' : '✕ ') + 'AutoCorrect & Spell';
-    ['letterContent','enclList','belowSignContent'].forEach(id => {
-        document.getElementById(id).setAttribute('spellcheck', spellAndAcActive ? 'true' : 'false');
-    });
-}
-
-function runAutoCorrect(e){
-    if(!spellAndAcActive) return;
-    if(e.key !== ' ' && e.key !== 'Enter') return;
-
-    const sel = window.getSelection();
-    if(!sel.rangeCount || !sel.isCollapsed) return;
-    const range = sel.getRangeAt(0);
-    const node = range.startContainer;
-    if(node.nodeType !== Node.TEXT_NODE) return;
-
-    const textBefore = node.textContent.slice(0, range.startOffset);
-    const match = textBefore.match(/(\S+)$/);
-    if(!match) return;
-
-    const word = match[1];
-    const startIdx = range.startOffset - word.length;
-    const lower = word.toLowerCase();
-    let replacement = null;
-
-    if(acRules[lower]){
-        replacement = acRules[lower];
-        if(word[0] === word[0].toUpperCase() && word[0] !== word[0].toLowerCase()){
-            replacement = replacement.charAt(0).toUpperCase() + replacement.slice(1);
-        }
-    } else {
-        const beforeWord = textBefore.slice(0, startIdx);
-        if((beforeWord.trim() === '' || /[.!?]\s+$/.test(beforeWord)) && /^[a-z]/.test(word)){
-            replacement = word.charAt(0).toUpperCase() + word.slice(1);
-        }
-    }
-
-    if(replacement && replacement !== word){
-        const r = document.createRange();
-        r.setStart(node, startIdx);
-        r.setEnd(node, range.startOffset);
-        sel.removeAllRanges();
-        sel.addRange(r);
-        document.execCommand('insertText', false, replacement);
-    }
-}
-
-['letterContent','enclList','belowSignContent'].forEach(id => {
-    document.getElementById(id).addEventListener('keydown', runAutoCorrect);
-});
-
-function openAcModal(){
-    renderAcList();
-    document.getElementById('acModal').classList.add('open');
-}
-function closeAcModal(){
-    document.getElementById('acModal').classList.remove('open');
-}
-function renderAcList(){
-    const box = document.getElementById('acItemsList');
-    box.innerHTML = Object.entries(acRules).map(([k,v]) => `
-        <div class="ac-item">
-            <span><b>${k}</b> &rarr; ${v}</span>
-            <button type="button" onclick="removeAcEntry('${k.replace(/'/g,"\\'")}')">Delete</button>
-        </div>
-    `).join('');
-}
-function addAcEntry(){
-    const k = document.getElementById('acKey').value.trim().toLowerCase();
-    const v = document.getElementById('acVal').value.trim();
-    if(!k || !v) return;
-    acRules[k] = v;
-    localStorage.setItem('tfhs_ac_rules', JSON.stringify(acRules));
-    document.getElementById('acKey').value = '';
-    document.getElementById('acVal').value = '';
-    renderAcList();
-}
-function removeAcEntry(k){
-    delete acRules[k];
-    localStorage.setItem('tfhs_ac_rules', JSON.stringify(acRules));
-    renderAcList();
-}
-
-/* ===== 7. RESTORE ORIGINAL LOGO, WATERMARK & STAMP FROM GITHUB COMMIT HISTORY ===== */
-async function loadOriginalImages(){
-    const logoImg = document.getElementById('logoImg');
-    const signImg = document.getElementById('signImg');
-    const wmEl = document.getElementById('watermarkEl');
-
-    if(logoImg.getAttribute('src') && signImg.getAttribute('src')) return;
-
-    const cached = JSON.parse(localStorage.getItem('tfhs_orig_assets_v2') || 'null');
-    if(cached && cached.logo && cached.sign){
-        logoImg.src = cached.logo;
-        signImg.src = cached.sign;
-        wmEl.style.backgroundImage = `url('${cached.logo}')`;
-        return;
-    }
-
-    try{
-        const commitsResp = await fetch('https://api.github.com/repos/prabirdangar-web/letter_head/commits?per_page=10');
-        const commits = commitsResp.ok ? await commitsResp.json() : [];
-        const rawUrls = commits.map(c => `https://raw.githubusercontent.com/prabirdangar-web/letter_head/${c.sha}/index.html`);
-        rawUrls.unshift('https://prabirdangar-web.github.io/letter_head/');
-
-        let foundLogo = null;
-        let foundSign = null;
-
-        for(const url of rawUrls){
-            try{
-                const r = await fetch(url);
-                if(!r.ok) continue;
-                const txt = await r.text();
-                const doc = new DOMParser().parseFromString(txt, 'text/html');
-                const l = doc.querySelector('.logo-wrap img')?.getAttribute('src');
-                const s = doc.querySelector('#signImg')?.getAttribute('src');
-                if(!foundLogo && l && l.startsWith('data:image')) foundLogo = l;
-                if(!foundSign && s && s.startsWith('data:image') && s.length > 1000) foundSign = s;
-                if(foundLogo && foundSign) break;
-            }catch(e){}
-        }
-
-        if(foundLogo){
-            logoImg.src = foundLogo;
-            wmEl.style.backgroundImage = `url('${foundLogo}')`;
-        }
-        if(foundSign){
-            signImg.src = foundSign;
-        }
-        if(foundLogo && foundSign){
-            localStorage.setItem('tfhs_orig_assets_v2', JSON.stringify({ logo: foundLogo, sign: foundSign }));
-        }
-    }catch(err){
-        console.warn('Image recovery error:', err);
-    }
-}
-
-function initSignDate(){
-    const el = document.getElementById('signDate');
-    if(el && !el.textContent.trim()){
-        const d = new Date();
-        el.textContent = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
-    }
-}
-
-function saveFullHTML(){
-    const clone = document.documentElement.cloneNode(true);
-    clone.querySelector('#acModal')?.classList.remove('open');
-    const htmlStr = '<!DOCTYPE html>\n' + clone.outerHTML;
-    const blob = new Blob([htmlStr], { type: 'text/html;charset=utf-8' });
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = 'index.html';
-    a.click();
-    URL.revokeObjectURL(a.href);
-}
-
-window.addEventListener('DOMContentLoaded', () => {
-    initSignDate();
-    fitHeaderLines();
-    loadOriginalImages();
-});
-</script>
-
-</body>
-</html>
+.content p
