@@ -32,6 +32,8 @@ body{
     background:#e6e9ed;
     font-family:'Noto Sans Bengali',sans-serif;
     padding:20px;
+    -webkit-print-color-adjust:exact;
+    print-color-adjust:exact;
 }
 
 .page{
@@ -200,19 +202,22 @@ body{
     background:#ffffff;
     border-bottom:3px solid #000;
     border-top:4px solid #000;
+    width:100%;
+    overflow:hidden;
 }
 
 .header-inner{
     display:flex;
     align-items:center;
-    gap:18px;
-    padding:12px 10px 10px;
+    gap:14px;
+    padding:10px 6px 8px;
+    width:100%;
 }
 
 .logo-wrap{
     flex:0 0 auto;
-    width:100px;
-    height:100px;
+    width:96px;
+    height:96px;
     border-radius:50%;
     padding:3px;
     background:#000;
@@ -230,26 +235,30 @@ body{
 }
 
 .title{
-    flex:1;
+    flex:1 1 0%;
     text-align:center;
     min-width:0;
+    max-width:100%;
+    overflow:hidden;
 }
 
 .title .name-en{
-    font-size:34px;
+    font-size:24.5px;
     color:#0a4f8f;
     font-weight:800;
-    letter-spacing:.4px;
+    letter-spacing:.2px;
     text-transform:uppercase;
     white-space:nowrap;
+    line-height:1.2;
 }
 
 .title .name-bn{
     margin-top:4px;
-    font-size:32px;
+    font-size:29px;
     font-weight:800;
     letter-spacing:.2px;
     white-space:nowrap;
+    line-height:1.25;
     background:linear-gradient(180deg,#FF9933 0%,#FF9933 32%,#1a1a1a 32%,#1a1a1a 68%,#128807 68%,#128807 100%);
     -webkit-background-clip:text;
     background-clip:text;
@@ -260,15 +269,15 @@ body{
 }
 
 .title .estd{
-    margin-top:10px;
+    margin-top:8px;
     display:inline-block;
-    font-size:20px;
+    font-size:18px;
     color:#000;
     font-weight:700;
     letter-spacing:.3px;
     border:2px solid #000;
     border-radius:999px;
-    padding:6px 26px;
+    padding:4px 22px;
     background:#f7f7f7;
 }
 
@@ -276,23 +285,25 @@ body{
 .contact-strip{
     background:#f7f7f7;
     color:#000;
-    padding:3px 12px;
+    padding:4px 8px;
     display:flex;
     flex-wrap:wrap;
     justify-content:center;
     align-items:center;
-    gap:2px 14px;
+    gap:2px 12px;
     text-align:center;
     border-top:2px solid #000;
+    width:100%;
+    overflow:hidden;
 }
 
 .contact-strip .addr{
     font-weight:700;
     width:100%;
     text-align:center;
-    font-size:16px;
+    font-size:15px;
     white-space:nowrap;
-    line-height:1.15;
+    line-height:1.2;
 }
 
 .contact-strip .row2{
@@ -300,9 +311,9 @@ body{
     flex-wrap:wrap;
     justify-content:center;
     align-items:center;
-    gap:3px 14px;
+    gap:3px 12px;
     width:100%;
-    margin-top:1px;
+    margin-top:2px;
     font-size:11.5px;
     line-height:1.15;
 }
@@ -363,6 +374,9 @@ body{
     line-height:var(--line-height);
     color:#1c1c1c;
     outline:none;
+    overflow-wrap:break-word;
+    word-wrap:break-word;
+    word-break:break-word;
     background-image:repeating-linear-gradient(
         to bottom,
         transparent,
@@ -460,6 +474,8 @@ body{
     padding:2px 8px 4px;
     font-size:15.5px;
     color:#1c1c1c;
+    overflow-wrap:break-word;
+    word-break:break-word;
 }
 
 .encl-title{
@@ -494,6 +510,9 @@ body{
     line-height:var(--line-height);
     color:#1c1c1c;
     outline:none;
+    overflow-wrap:break-word;
+    word-wrap:break-word;
+    word-break:break-word;
     background-image:repeating-linear-gradient(
         to bottom,
         transparent,
@@ -595,6 +614,7 @@ body{
     .page{
         box-shadow:none;
         margin:0;
+        width:210mm;
         min-height:auto;
     }
     .title .name-en{
@@ -640,7 +660,7 @@ body{
 <body>
 
 <div class="toolbar">
-    <button type="button" onclick="window.print()">🖨 Print</button>
+    <button type="button" onclick="prepareAndPrint()">🖨 Print</button>
     <button type="button" id="langBtn" onclick="toggleLang()">বাংলা / English</button>
     <button type="button" onclick="saveFullHTML()" title="Download complete standalone index.html with embedded images">💾 Save Full HTML</button>
 
@@ -761,14 +781,14 @@ body{
                 <img id="logoImg" src="" alt="School Logo">
             </div>
 
-            <div class="title">
+            <div class="title" id="titleBox">
                 <div class="name-en" id="nameEn">Taldangra Fulmati High School (H.S.)</div>
                 <div class="name-bn" id="nameBn">তালডাংরা ফুলমতি উচ্চ বিদ্যালয় (উ:মা:)</div>
                 <div class="estd" id="estdLine" data-bn="স্থাপিত ১৯৫৬" data-en="Estd. 1956" data-both="স্থাপিত ১৯৫৬ &nbsp;/&nbsp; Estd. 1956">স্থাপিত ১৯৫৬ &nbsp;/&nbsp; Estd. 1956</div>
             </div>
         </div>
 
-        <div class="contact-strip">
+        <div class="contact-strip" id="contactBox">
             <div class="addr" id="addrLine" data-bn="পো. ও ব্লক – তালডাংরা, মহকুমা – খাতড়া, জেলা – বাঁকুড়া, পশ্চিমবঙ্গ, পিন – ৭২২১৫২" data-en="P.O. &amp; Block – Taldangra, Sub-Div – Khatra, Dist – Bankura, West Bengal, PIN – 722152">পো. ও ব্লক – তালডাংরা, মহকুমা – খাতড়া, জেলা – বাঁকুড়া, পশ্চিমবঙ্গ, পিন – ৭২২১৫২</div>
             <div class="row2">
                 <div class="item">☎️ <span id="landlineLabel" data-bn="ল্যান্ডলাইন" data-en="Landline">ল্যান্ডলাইন</span> : <b><span id="landlineNum" data-bn="০৩২৪৩-২৬৫১১৪" data-en="03243-265114">০৩২৪৩-২৬৫১১৪</span></b></div>
@@ -828,6 +848,36 @@ body{
 </div>
 
 <script>
+/* ===== 0. AUTO-FIT HEADER LINES SO THEY NEVER GO OUTSIDE ===== */
+function fitSingleLine(el, maxPx, minPx){
+    if(!el) return;
+    el.style.fontSize = maxPx + 'px';
+    const parentWidth = el.parentElement.clientWidth - 4;
+    if(parentWidth <= 0) return;
+    let size = maxPx;
+    while(el.scrollWidth > parentWidth && size > minPx){
+        size -= 0.5;
+        el.style.fontSize = size + 'px';
+    }
+}
+
+function fitHeaderLines(){
+    fitSingleLine(document.getElementById('nameEn'), 25, 14);
+    fitSingleLine(document.getElementById('nameBn'), 30, 16);
+    fitSingleLine(document.getElementById('addrLine'), 15.5, 10);
+}
+
+function prepareAndPrint(){
+    fitHeaderLines();
+    window.print();
+}
+
+window.addEventListener('resize', fitHeaderLines);
+window.addEventListener('beforeprint', fitHeaderLines);
+if(document.fonts && document.fonts.ready){
+    document.fonts.ready.then(fitHeaderLines);
+}
+
 /* ===== 1. RICH TEXT & MS WORD UNDERLINE STYLES ===== */
 function fmt(cmd, val = null){
     document.execCommand(cmd, false, val);
@@ -964,6 +1014,7 @@ function toggleLang(){
             el.innerHTML = langState === 0 ? el.dataset.bn : el.dataset.en;
         }
     });
+    fitHeaderLines();
 }
 
 /* ===== 6. MS WORD SPELL CHECK & AUTOCORRECT ===== */
@@ -1089,7 +1140,6 @@ async function loadOriginalImages(){
     }
 
     try{
-        // Search repository commit history so even if main was overwritten, earlier intact Base64 images are recovered
         const commitsResp = await fetch('https://api.github.com/repos/prabirdangar-web/letter_head/commits?per_page=10');
         const commits = commitsResp.ok ? await commitsResp.json() : [];
         const rawUrls = commits.map(c => `https://raw.githubusercontent.com/prabirdangar-web/letter_head/${c.sha}/index.html`);
@@ -1149,6 +1199,7 @@ function saveFullHTML(){
 
 window.addEventListener('DOMContentLoaded', () => {
     initSignDate();
+    fitHeaderLines();
     loadOriginalImages();
 });
 </script>
