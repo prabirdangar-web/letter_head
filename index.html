@@ -1219,7 +1219,7 @@ function initSignDate(){
 function saveFullHTML(){
     const clone = document.documentElement.cloneNode(true);
     clone.querySelector('#acModal')?.classList.remove('open');
-    clone.querySelectorAll('#gtBtn,#gtBox,#gtStyle').forEach(n => n.remove());
+    clone.querySelectorAll('#gtBtn,#gtBox,#gtStyle,#pkBtn,#pkBox,#pkStyle').forEach(n => n.remove());
     const htmlStr = '<!DOCTYPE html>\n' + clone.outerHTML;
     const blob = new Blob([htmlStr], { type: 'text/html;charset=utf-8' });
     const a = document.createElement('a');
@@ -1338,6 +1338,113 @@ window.addEventListener('DOMContentLoaded', () => {
   $('gtCp').onclick  = () => { const o = $('gtOut'); o.select(); navigator.clipboard ? navigator.clipboard.writeText(o.value) : document.execCommand('copy'); };
   $('gtWeb').onclick = () => { const [sl, tl] = lastDir.split('|');
     window.open('https://translate.google.com/?sl='+sl+'&tl='+tl+'&op=translate&text='+encodeURIComponent($('gtSrc').value), '_blank'); };
+})();
+</script>
+
+<!-- ===== PROOFREAD HELPER (✨ button / Alt+K): spelling, official wording, clearer sentences — Bangla + English ===== -->
+<script>
+(function(){
+if(document.getElementById('pkBtn'))return;
+const B='\\u0980-\\u09FF', $=id=>document.getElementById(id);
+const EN_SP={teh:'the',recieve:'receive',recieved:'received',adress:'address',occured:'occurred',seperate:'separate',definately:'definitely',accomodation:'accommodation',tommorow:'tomorrow',tommorrow:'tomorrow',begining:'beginning',goverment:'government',enviroment:'environment',necesary:'necessary',neccessary:'necessary',sincerly:'sincerely',recomend:'recommend',refered:'referred',wich:'which',becuase:'because',untill:'until',thier:'their',alot:'a lot',acknowlege:'acknowledge',responsibilty:'responsibility',attendence:'attendance',commitee:'committee',comittee:'committee',sallary:'salary',salery:'salary',adminstration:'administration',examintion:'examination',certficate:'certificate',certifcate:'certificate',applicaton:'application',sanctoned:'sanctioned',beleive:'believe',occassion:'occasion',buisness:'business',existance:'existence',independant:'independent',maintainance:'maintenance',succesful:'successful',truely:'truly',thankyou:'thank you',infromation:'information',reciept:'receipt',shedule:'schedule',dispite:'despite',colleage:'colleague',accross:'across',agian:'again',arrangment:'arrangement',assesment:'assessment',benifit:'benefit',disbursment:'disbursement',inconvinience:'inconvenience',extention:'extension',disipline:'discipline'};
+const BN_SP=[['অনুরুধ','অনুরোধ'],['বিধ্যালয়','বিদ্যালয়'],['পরিক্ষা','পরীক্ষা'],['প্রয়জন','প্রয়োজন'],['প্রয়োজনিয়','প্রয়োজনীয়'],['অনুমতী','অনুমতি'],['উপরুক্ত','উপরোক্ত'],['পরিপেক্ষিতে','পরিপ্রেক্ষিতে'],['ধন্নবাদ','ধন্যবাদ'],['কতৃপক্ষ','কর্তৃপক্ষ'],['আর্থীক','আর্থিক'],['দরখাস্থ','দরখাস্ত'],['উপস্তিত','উপস্থিত'],['ব্যাবস্থা','ব্যবস্থা'],['ব্যাবহার','ব্যবহার'],['প্রধাণ','প্রধান'],['অনুমোদণ','অনুমোদন'],['ইতিমদ্ধ্যে','ইতিমধ্যে'],['অত্যান্ত','অত্যন্ত'],['বিণীত','বিনীত'],['বিবরন','বিবরণ']];
+const OF_EN=[['please','kindly'],['thanks','thank you'],['i want to','I wish to'],['i want','I request'],['i need','I require'],['we need','we require'],['needed','required'],['tell me','inform me'],['tell you','inform you'],['told','informed'],['let me know','inform me'],['send me','forward to me'],['send','forward'],['sent','forwarded'],['buy','purchase'],['bought','purchased'],['start','commence'],['started','commenced'],['asap','at the earliest'],['as soon as possible','at the earliest'],['soon','at the earliest'],['right now','immediately'],['at once','immediately'],['help me','assist me'],['about the','regarding the'],['ask for','request'],['look into','examine'],['find out','ascertain'],['lots of','a large number of'],['a lot of','a large number of'],["can['’]t",'cannot'],["won['’]t",'will not'],["don['’]t",'do not'],["doesn['’]t",'does not'],["didn['’]t",'did not'],["isn['’]t",'is not'],["aren['’]t",'are not'],["wasn['’]t",'was not'],["haven['’]t",'have not'],["hasn['’]t",'has not'],["couldn['’]t",'could not'],["wouldn['’]t",'would not'],["shouldn['’]t",'should not'],["i['’]m",'I am'],["we['’]re",'we are'],["it['’]s",'it is'],["i['’]ve",'I have'],["we['’]ve",'we have']];
+const OF_BN=[['দয়া করে','অনুগ্রহপূর্বক'],['অনুগ্রহ করে','অনুগ্রহপূর্বক'],['চিঠির','পত্রের'],['চিঠিতে','পত্রে'],['চিঠি','পত্র'],['পাঠিয়ে দিন','প্রেরণ করুন'],['পাঠাচ্ছি','প্রেরণ করছি'],['পাঠিয়েছি','প্রেরণ করেছি'],['তাড়াতাড়ি','অবিলম্বে'],['জলদি','অবিলম্বে'],['জানতে চাই','জানতে ইচ্ছুক'],['বলছি','জানাচ্ছি'],['হয়ে গেছে','সম্পন্ন হয়েছে'],['খুব','অত্যন্ত'],['নিচে','নিম্নে'],['স্কুলের','বিদ্যালয়ের'],['স্কুল','বিদ্যালয়'],['হেডমাস্টার','প্রধান শিক্ষক'],['টিচার','শিক্ষক'],['দরখাস্ত','আবেদন'],['সাহায্য করুন','সহযোগিতা করুন']];
+const WORDY=[['in order to','to'],['due to the fact that','because'],['at this point in time','now'],['in the event that','if'],['prior to','before'],['subsequent to','after'],['a number of','several'],['is able to','can'],['in spite of the fact that','although'],['make a request','request']];
+const ABBR=/(^|\s)(e\.g|i\.e|etc|no|dr|mr|mrs|ms|sl|vs|st|smt|sri|shri|govt|dept|encl|ref)\.\s$/i;
+const cs=(m,r)=>(/^[A-Z]/.test(m)&&/^[a-z]/.test(r))?r[0].toUpperCase()+r.slice(1):r;
+const fixWord=w=>{const l=w.toLowerCase();if(EN_SP[l]&&!(w.length>1&&w===w.toUpperCase()))return cs(w,EN_SP[l]);for(const[a,b]of BN_SP)if(w.includes(a))return w.replace(a,b);return null;};
+
+const R=[ // priority order
+ {re:new RegExp("[A-Za-z]+|["+B+"]+",'g'),to:m=>fixWord(m),t:'sp',why:'Spelling'},
+ ...OF_EN.map(([p,r])=>({re:new RegExp("(?<![A-Za-z])"+p+"(?![A-Za-z])",'gi'),to:m=>cs(m,r),t:'of',why:'Official wording'})),
+ ...OF_BN.map(([p,r])=>({re:new RegExp("(?<!["+B+"])"+p+"(?!["+B+"])",'g'),to:()=>r,t:'of',why:'Official wording'})),
+ ...WORDY.map(([p,r])=>({re:new RegExp("(?<![A-Za-z])"+p+"(?![A-Za-z])",'gi'),to:m=>cs(m,r),t:'cl',why:'Shorter / clearer'})),
+ {re:/(?<=\S) {2,}(?=\S)/g,to:()=>' ',t:'cl',why:'Extra spaces'},
+ {re:/(?<=\S) +(?=[,;।!?])/g,to:()=>'',t:'cl',why:'Space before punctuation'},
+ {re:new RegExp("(?<=[,;।])(?=[A-Za-z"+B+"])",'g'),to:()=>' ',t:'cl',why:'Add space after punctuation'},
+ {re:/।{2,}/g,to:()=>'।',t:'cl',why:'Double danda'},
+ {re:new RegExp("(?<=["+B+"])\\.(?=\\s|$)",'g'),to:()=>'।',t:'cl',why:'Use । to end a Bangla sentence'},
+ {re:/\b([A-Za-z]+) \1\b/gi,to:m=>m.split(' ')[0],t:'cl',why:'Repeated word'},
+ {re:/(?<![A-Za-z'’.])i(?![A-Za-z'’.])/g,to:()=>'I',t:'cl',why:'Capital I'},
+ {re:/(?<=[.!?]\s)[a-z]/g,to:(m,i,tx)=>ABBR.test(tx.slice(0,i))?null:m.toUpperCase(),t:'cl',why:'Capital letter at sentence start'},
+ {re:/[^.!?।\n]+/g,flag:m=>m.trim().split(/\s+/).length>40,t:'in',why:'Long sentence – consider splitting'}
+];
+
+function roots(){return [...document.querySelectorAll('.page [contenteditable="true"],.page [contenteditable=""]')].filter(r=>!r.parentElement.closest('[contenteditable="true"]'));}
+function scan(){
+ const out=[];
+ roots().forEach(root=>{
+  const w=document.createTreeWalker(root,NodeFilter.SHOW_TEXT),nodes=[];
+  while(w.nextNode())nodes.push(w.currentNode);
+  nodes.forEach((n,k)=>{
+   const tx=n.data,taken=[];
+   const add=(s,e,to,t,why,nx)=>{if(taken.some(([a,b])=>s<b&&e>a||(s===e&&a===b)))return;taken.push([s,e]);out.push({node:n,s,e,from:tx.slice(s,e),to,t,why,root});};
+   R.forEach(r=>{r.re.lastIndex=0;let m;while((m=r.re.exec(tx))){
+     if(m[0]===''){r.re.lastIndex++;}
+     if(r.flag){if(r.flag(m[0]))add(m.index,m.index+m[0].length,null,r.t,r.why);continue;}
+     const to=r.to(m[0],m.index,tx);if(to!=null&&to!==m[0])add(m.index,m.index+m[0].length,to,r.t,r.why);}});
+   const tr=tx.replace(/\s+$/,''),blk=x=>x.parentElement.closest('div,p,li,[contenteditable]'),nx=nodes[k+1];
+   if(tr.length>30&&/[A-Za-z0-9\u0980-\u09FF]$/.test(tr)&&(!nx||blk(nx)!==blk(n))){
+     const e=tr.length,to=/[\u0980-\u09FF]$/.test(tr)?'।':'.';add(e,e,to,'cl','Add sentence ending');}
+  });
+ });
+ return out.filter(o=>!ign.has(o.from+'>'+o.to));
+}
+const ign=new Set();let list=[];
+
+function doApply(s){
+ const sel=getSelection(),r=document.createRange();r.setStart(s.node,s.s);r.setEnd(s.node,s.e);
+ s.root.focus();sel.removeAllRanges();sel.addRange(r);
+ const ok=s.to===''?document.execCommand('delete'):document.execCommand('insertText',false,s.to);
+ if(!ok)s.node.replaceData(s.s,s.e-s.s,s.to);
+}
+const css=document.createElement('style');css.id='pkStyle';
+css.textContent=`#pkBtn{position:fixed;right:14px;bottom:68px;z-index:99998;width:46px;height:46px;border-radius:50%;border:none;background:#0b8043;color:#fff;font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,.3);cursor:pointer}
+#pkBox{position:fixed;right:14px;bottom:122px;z-index:99998;width:min(380px,94vw);max-height:62vh;overflow:auto;background:#fff;color:#222;border:1px solid #bbb;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.3);padding:10px;display:none;font:13px sans-serif}
+#pkBox button{margin:2px 2px 2px 0;padding:4px 8px;border:1px solid #0b8043;background:#fff;color:#0b8043;border-radius:6px;cursor:pointer}#pkBox button.p{background:#0b8043;color:#fff}
+.pkI{border-top:1px solid #ddd;padding:5px 0}.pkI mark{background:#ffe08a}.pkI .c{cursor:pointer}.tg{font-size:11px;padding:1px 5px;border-radius:4px;color:#fff}
+.tg.sp{background:#d93025}.tg.of{background:#1a73e8}.tg.cl{background:#e37400}.tg.in{background:#777}
+@media print{#pkBtn,#pkBox{display:none!important}}`;
+document.head.appendChild(css);
+const btn=document.createElement('button');btn.id='pkBtn';btn.type='button';btn.textContent='✨';btn.title='Proofread (Alt+K)';
+btn.addEventListener('mousedown',e=>e.preventDefault());
+const box=document.createElement('div');box.id='pkBox';
+box.innerHTML=`<b>Proofread</b> <label style="float:right"><input type="checkbox" id="pkAuto"> auto-correct spelling &amp; capitals while typing</label><div style="margin:4px 0"><button type="button" class="p" id="pkRun">Re-check</button><button type="button" id="pkAll">Apply all</button><button type="button" id="pkSp">Apply spelling only</button></div><div id="pkSum" style="color:#666"></div><div id="pkList"></div>`;
+document.body.append(btn,box);
+const esc=s=>s.replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c])).replace(/ /g,'&nbsp;');
+const NM={sp:'Spelling',of:'Official',cl:'Clearer',in:'Note'};
+function render(){
+ list=scan();
+ const cnt=t=>list.filter(x=>x.t===t).length;
+ $('pkSum').textContent=list.length?`${list.length} suggestions — spelling ${cnt('sp')}, official ${cnt('of')}, clearer ${cnt('cl')}, notes ${cnt('in')}`:'✔ No suggestions found';
+ $('pkList').innerHTML=list.map((s,i)=>{const tx=s.node.data;
+  return `<div class="pkI"><span class="tg ${s.t}">${NM[s.t]}</span> ${s.why}<div class="c" data-l="${i}">…${esc(tx.slice(Math.max(0,s.s-14),s.s))}<mark>${esc(s.from)||'∅'}</mark>${esc(tx.slice(s.e,s.e+14))}…</div>${s.to===null?'':`<div>→ <b>${esc(s.to)||'(remove)'}</b></div>`}${s.to===null?'':`<button type="button" data-a="${i}">Apply</button>`}<button type="button" data-g="${i}">Ignore</button></div>`;}).join('');
+}
+$('pkList').addEventListener('click',e=>{const t=e.target,g=a=>t.getAttribute(a);
+ if(g('data-a')!==null){doApply(list[+g('data-a')]);render();}
+ else if(g('data-g')!==null){const s=list[+g('data-g')];ign.add(s.from+'>'+s.to);render();}
+ else if(t.closest('[data-l]')){const s=list[+t.closest('[data-l]').getAttribute('data-l')],r=document.createRange();r.setStart(s.node,s.s);r.setEnd(s.node,s.e);const sl=getSelection();sl.removeAllRanges();sl.addRange(r);s.node.parentElement.scrollIntoView({block:'center'});}});
+function applyAll(only){const l=scan().filter(s=>s.to!==null&&(!only||s.t===only));l.sort((a,b)=>a.s-b.s);for(let i=l.length-1;i>=0;i--)doApply(l[i]);render();}
+$('pkAll').onclick=()=>applyAll();$('pkSp').onclick=()=>applyAll('sp');$('pkRun').onclick=render;
+function toggle(){if(box.style.display==='block'){box.style.display='none';return;}const g=$('gtBox');if(g)g.style.display='none';box.style.display='block';render();}
+btn.onclick=toggle;
+const gb=$('gtBtn');if(gb)gb.addEventListener('click',()=>{box.style.display='none';});
+document.addEventListener('keydown',e=>{if(e.altKey&&e.key.toLowerCase()==='k'){e.preventDefault();toggle();}});
+
+let auto=true;try{auto=localStorage.getItem('tfhs_pk_auto')!=='0';}catch(_){}
+$('pkAuto').checked=auto;$('pkAuto').onchange=e=>{auto=e.target.checked;try{localStorage.setItem('tfhs_pk_auto',auto?'1':'0');}catch(_){}};
+document.addEventListener('input',e=>{ // fix while typing
+ if(!auto||e.inputType!=='insertText'||!e.data||e.data.length!==1)return;
+ const t=e.target;if(!t.isContentEditable||!t.closest||!t.closest('.page'))return;
+ const sel=getSelection();if(!sel.rangeCount||sel.anchorNode.nodeType!==3)return;
+ const n=sel.anchorNode,off=sel.anchorOffset,d=e.data,tx=n.data,before=tx.slice(0,off-1);
+ let s0=-1,rep=null;
+ if(/[\s.,;:!?।)]/.test(d)){const m=before.match(/[A-Za-z\u0980-\u09FF]+$/);if(m){const f=fixWord(m[0]);if(f){s0=off-1-m[0].length;rep=f+d;}}}
+ else if(/[a-z]/.test(d)&&/[.!?]\s$/.test(before)&&!ABBR.test(before)){s0=off-1;rep=d.toUpperCase();}
+ if(rep===null)return;
+ const r=document.createRange();r.setStart(n,s0);r.setEnd(n,off);sel.removeAllRanges();sel.addRange(r);document.execCommand('insertText',false,rep);
+});
 })();
 </script>
 
