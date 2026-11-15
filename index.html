@@ -1219,6 +1219,7 @@ function initSignDate(){
 function saveFullHTML(){
     const clone = document.documentElement.cloneNode(true);
     clone.querySelector('#acModal')?.classList.remove('open');
+    clone.querySelectorAll('#gtBtn,#gtBox,#gtStyle').forEach(n => n.remove());
     const htmlStr = '<!DOCTYPE html>\n' + clone.outerHTML;
     const blob = new Blob([htmlStr], { type: 'text/html;charset=utf-8' });
     const a = document.createElement('a');
@@ -1233,6 +1234,111 @@ window.addEventListener('DOMContentLoaded', () => {
     fitHeaderLines();
     loadOriginalImages();
 });
+</script>
+
+<!-- ===== TRANSLATE HELPER: click in any text box / letter area, select text (or not), press the 🌐 button or Alt+T ===== -->
+<script>
+(function(){
+  if (document.getElementById('gtBtn')) return;           // never add twice
+  let field = null, savedRange = null, lastDir = 'bn|en';
+  const isCE = el => el && el.isContentEditable && el.getAttribute('contenteditable') !== 'false';
+  const inBox = el => el && el.closest && el.closest('#gtBox,#gtBtn');
+
+  document.addEventListener('focusin', e=>{
+    const t = e.target;
+    if (inBox(t)) return;
+    if (t.matches && (t.matches('textarea,input[type=text],input[type=search],input:not([type])') || t.matches('[contenteditable]:not([contenteditable=false])'))) field = t;
+  });
+  document.addEventListener('selectionchange', ()=>{       // remember selection inside a letter area
+    if (!isCE(field)) return;
+    const s = window.getSelection();
+    if (s.rangeCount && field.contains(s.anchorNode)) savedRange = s.getRangeAt(0).cloneRange();
+  });
+
+  const css = document.createElement('style'); css.id = 'gtStyle';
+  css.textContent = `
+  #gtBtn{position:fixed;right:14px;bottom:14px;z-index:99999;width:46px;height:46px;border-radius:50%;
+    border:none;background:#1a73e8;color:#fff;font-size:22px;box-shadow:0 2px 8px rgba(0,0,0,.3);cursor:pointer}
+  #gtBox{position:fixed;right:14px;bottom:70px;z-index:99999;width:min(340px,92vw);background:#fff;color:#222;
+    border:1px solid #bbb;border-radius:10px;box-shadow:0 4px 16px rgba(0,0,0,.3);padding:10px;display:none;font:14px sans-serif}
+  #gtBox textarea{width:100%;box-sizing:border-box;height:70px;margin:4px 0;font:14px sans-serif}
+  #gtBox button{margin:2px 2px 2px 0;padding:6px 9px;border:1px solid #1a73e8;background:#fff;color:#1a73e8;border-radius:6px;cursor:pointer}
+  #gtBox button.p{background:#1a73e8;color:#fff}
+  @media print{#gtBtn,#gtBox{display:none!important}}`;
+  document.head.appendChild(css);
+
+  const btn = document.createElement('button');
+  btn.id = 'gtBtn'; btn.type = 'button'; btn.textContent = '🌐'; btn.title = 'Translate (Alt+T)';
+  btn.addEventListener('mousedown', e=>e.preventDefault());          // keep focus/selection in the field
+  const box = document.createElement('div'); box.id = 'gtBox';
+  box.innerHTML = `
+    <b>Translate</b> <span id="gtSt" style="color:#888;font-size:12px"></span>
+    <textarea id="gtSrc" placeholder="Text (auto-filled from selected text / current field)"></textarea>
+    <button type="button" class="p" data-d="bn|en">বাংলা → English</button>
+    <button type="button" class="p" data-d="en|bn">English → বাংলা</button>
+    <textarea id="gtOut" placeholder="Result"></textarea>
+    <button type="button" id="gtRep">Replace</button>
+    <button type="button" id="gtIns">Add after text</button>
+    <button type="button" id="gtCp">Copy</button>
+    <button type="button" id="gtWeb">Open Google ↗</button>`;
+  document.body.append(btn, box);
+  const $ = id => document.getElementById(id);
+
+  function grabText(){
+    if (!field) return '';
+    if (isCE(field)){
+      const sel = savedRange ? savedRange.toString() : '';
+      return sel.trim() ? sel : field.innerText.trim();
+    }
+    const s = field.selectionStart, e = field.selectionEnd;
+    return (s !== e) ? field.value.substring(s, e) : field.value;
+  }
+  function toggle(){
+    if (box.style.display === 'block'){ box.style.display = 'none'; return; }
+    $('gtSrc').value = grabText(); $('gtOut').value = ''; $('gtSt').textContent = '';
+    box.style.display = 'block';
+  }
+  btn.addEventListener('click', toggle);
+  document.addEventListener('keydown', e=>{ if (e.altKey && e.key.toLowerCase() === 't'){ e.preventDefault(); toggle(); }});
+
+  async function translate(dir){
+    lastDir = dir;
+    const [sl, tl] = dir.split('|'), q = $('gtSrc').value.trim();
+    if (!q) return;
+    $('gtSt').textContent = 'translating…';
+    try{
+      const r = await fetch('https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl='+sl+'&tl='+tl+'&q='+encodeURIComponent(q));
+      const d = await r.json();
+      $('gtOut').value = d[0].map(x=>x[0]).join('');
+      $('gtSt').textContent = '';
+    }catch(err){ $('gtSt').textContent = 'offline/blocked – use "Open Google ↗"'; }
+  }
+  box.querySelectorAll('button[data-d]').forEach(b=>b.addEventListener('click', ()=>translate(b.dataset.d)));
+
+  function put(mode){
+    const t = $('gtOut').value; if (!field || !t) return;
+    if (isCE(field)){
+      field.focus();
+      const s = window.getSelection(); s.removeAllRanges();
+      let r;
+      if (mode === 'rep' && savedRange && !savedRange.collapsed && field.contains(savedRange.commonAncestorContainer)) r = savedRange;
+      else { r = document.createRange(); r.selectNodeContents(field); if (mode === 'add') r.collapse(false); }
+      s.addRange(r);
+      document.execCommand('insertText', false, (mode === 'add' ? ' ' : '') + t);   // keeps Ctrl+Z undo
+    } else {
+      const a = field.selectionStart, b = field.selectionEnd;
+      if (mode === 'rep') field.value = (a !== b) ? field.value.slice(0,a) + t + field.value.slice(b) : t;
+      else field.value = field.value + (field.value ? ' ' : '') + t;
+      field.dispatchEvent(new Event('input',  {bubbles:true}));
+      field.dispatchEvent(new Event('change', {bubbles:true}));
+    }
+  }
+  $('gtRep').onclick = () => put('rep');
+  $('gtIns').onclick = () => put('add');
+  $('gtCp').onclick  = () => { const o = $('gtOut'); o.select(); navigator.clipboard ? navigator.clipboard.writeText(o.value) : document.execCommand('copy'); };
+  $('gtWeb').onclick = () => { const [sl, tl] = lastDir.split('|');
+    window.open('https://translate.google.com/?sl='+sl+'&tl='+tl+'&op=translate&text='+encodeURIComponent($('gtSrc').value), '_blank'); };
+})();
 </script>
 
 </body>
